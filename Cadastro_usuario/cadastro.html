@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro na Academia</title>
+    <link rel="stylesheet" href="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\styles.css">
+    <script src="cadastro.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Vamos Começar!</h1>
+        <form id="cadastroForm2">
+            <div class="input-box">
+                <label for="nome">Como você se chama?</label>
+                <input id="nome" type="text" placeholder="Seu nome completo, por favor!" required>
+            </div>
+            <div class="input-box">
+                <label for="email">Qual é o seu email?</label>
+                <input id="email" type="email" placeholder="Algo como nome@exemplo.com" required>
+            </div>
+            <div class="input-box">
+                <label for="cpf">CPF</label>
+                <input id="cpf" type="text" placeholder="Digite seu CPF" required>
+            </div>
+            <div class="input-box">
+                <label for="telefone">Telefone</label>
+                <input type="telefone" class="form-control" id="telefone" name="tel" required placeholder="(xx) xxxxx-xxxx" maxlength="15" pattern="\(\d{2}\)\s*\d{5}-\d{4}" required>
+            </div>
+            <div class="input-box">
+                <label for="password">Escolha uma senha forte!</label>
+                <input id="password" type="password" placeholder="Crie uma senha que você não esqueça!" required>
+            </div>
+            <div class="input-box">
+                <label for="confirm-password">Só para garantir, repita sua senha!</label>
+                <input id="confirm-password" type="password" placeholder="Confirme sua senha" required>
+            </div>
+            <div id="storageBrowserDIV">
+                <input id="storageBrowser" type="checkbox" name="storageBrowser">
+                <label for="storageBrowser">Lembre de mim</label>
+            </div>
+            <div id="error-message"></div> <!-- Placeholder for error/success messages -->
+            <button onclick="Cadastro_User()" type="button">Quero fazer parte!</button>
+        </form>
+    </div>
+    <script> 
+        const telefone = document.getElementById('telefone')
+        telefone.addEventListener('keypress', (e) => mascaraTelefone(e.target.value)) // Dispara quando digitado no campo
+        telefone.addEventListener('change', (e) => mascaraTelefone(e.target.value)) // Dispara quando autocompletado o campo
+    
+    const mascaraTelefone = (valor) => {
+        console.log(valor)
+    
+        valor = valor.replace(/\D/g, "")
+        valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2")
+        valor = valor.replace(/(\d)(\d{4})$/, "$1-$2")
+        telefone.value = valor
+    }
+
+    </script>
+</body>
+</html>

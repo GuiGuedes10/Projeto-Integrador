@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Aluno</title>
+    <link rel="stylesheet" href="aluno.css">
+    <link rel="stylesheet" href="styles.css">   
+
+</head>
+<body>
+    <div class="container">
+        <h1 id="saudacao">Bem-vindo, [Nome do Aluno]!</h1>
+        <div id="countdownContainer" class="countdown-container">
+            <div class="countdown-label">Iniciando treino em...</div>
+            <div id="countdown" class="countdown">3</div>            
+        </div>
+        <button id="registrarEntrada" class="button">Iniciar treino</button>
+        <button id="registrarSaida" class="button" style="display: none;">Encerrar treino</button>
+        <div class="details">
+            <h3>Detalhes de Permanência</h3>
+            <p id="mensagemPermanencia">Nenhuma entrada registrada ainda.</p>
+        </div>
+        <button id="sair" class="button" type="button" onclick="window.location.href = '../Home_Pagina/Home.html';">Sair</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

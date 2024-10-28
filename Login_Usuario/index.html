@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sessão</title>
+    <link rel="stylesheet" href="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\styles.css">
+    <link rel="stylesheet" href="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\global.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo da Academia" style="width: 100px;">
+        <h1>Iniciar Sessão</h1>
+        <form id="loginForm">
+            <div class="input-box">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Digite seu email" required>
+                <div class="message" id="loginMessage"></div>
+            </div>
+            <div class="input-box">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <button onclick="LoginUser()" type="button">Entrar</button>
+            <div class="link">
+                <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
+            </div>
+        </div>
+    </form>
+    
+
+    <!-- Script colocado no final do body para garantir que o DOM esteja carregado -->
+    <script src="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\Login_Usuario\ScriptLogins.Js"></script>
+</body>
+</html>
