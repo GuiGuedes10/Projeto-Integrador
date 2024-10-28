@@ -1,72 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-    // Função para validar CPF
-    function validarCPF(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
-        if (cpf.length !== 11) return false;
-
-        let soma = 0;
-        let resto;
-
-        for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-        resto = (soma * 10) % 11;
-        if ((resto === 10) || (resto === 11)) resto = 0;
-        if (resto !== parseInt(cpf.substring(9, 10))) return false;
-
-        soma = 0;
-        for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-        resto = (soma * 10) % 11;
-        if ((resto === 10) || (resto === 11)) resto = 0;
-        if (resto !== parseInt(cpf.substring(10, 11))) return false;
-
-        return true;
-    }
-
-    // Cadastro de Usuário
-    const cadastroForm = document.getElementById('cadastroForm');
-    if (cadastroForm) {
-        cadastroForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const cpf = document.getElementById('cpf').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const errorMessage = document.getElementById('error-message');
-
-            errorMessage.innerHTML = ''; // Limpa mensagens de erro anteriores
-
-            if (password !== confirmPassword) {
-                errorMessage.innerHTML = 'As senhas não coincidem!';
-                return;
-            }
-
-            if (!validarCPF(cpf)) {
-                errorMessage.innerHTML = 'CPF inválido!';
-                return;
-            }
-
-            if (usuarios.some(u => u.email === email)) {
-                errorMessage.innerHTML = 'Email já cadastrado!';
-                return;
-            }
-
-            if (usuarios.some(u => u.cpf === cpf)) {
-                errorMessage.innerHTML = 'CPF já cadastrado!';
-                return;
-            }
-
-            const novoUsuario = { nome, email, cpf, login: password };
-            usuarios.push(novoUsuario);
-            localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-            alert('Cadastro realizado com sucesso!');
-            window.location.href = 'index.html'; // Redireciona para a página de login
-        });
-    }
-
     // Login de Usuário
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -130,16 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             mensagemPermanencia.innerText = `Na última vez, você ficou ${Math.floor(tempoAnterior)} minutos na academia.`;
         }
     }
-
-    // Função de logout
-    const sairBtn = document.getElementById('sair');
-    if (sairBtn) {
-        sairBtn.addEventListener('click', function () {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'index.html';
-        });
-    }
-});
 document.getElementById('registrarEntrada').addEventListener('click', function() {
     let countdownContainer = document.getElementById('countdownContainer');
     let countdownElement = document.getElementById('countdown');

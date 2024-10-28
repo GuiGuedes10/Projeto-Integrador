@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo da Academia" style="width: 100px;">
+        <a href="../Home_Pagina/Home.html">
+         <img src="logo.png" alt="Logo da Academia" style="width: 100px;">
+        </a>
         <h1>Iniciar Sessão</h1>
         <form id="loginForm">
             <div class="input-box">
@@ -21,6 +23,7 @@
                 <label for="password">Senha</label>
                 <input type="password" id="password" placeholder="Digite sua senha" required>
             </div>
+            <div id="error-message"></div>
             <button onclick="LoginUser()" type="button">Entrar</button>
             <div class="link">
                 <a href="../Cadastro_usuario/cadastro.html">Ainda não tem conta? Cadastre-se</a>

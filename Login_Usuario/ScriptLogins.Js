@@ -1,4 +1,5 @@
 async function LoginUser() {
+    const errorMessage = document.getElementById('error-message');
     const Email = document.getElementById('email').value
     const Senha = document.getElementById('password').value
 
@@ -32,5 +33,6 @@ async function LoginUser() {
         })
         .catch((err) => {
             console.log(err)
+            errorMessage.innerHTML = 'Ops! Tivemos um problema em nossos servidores. Tente mais tarde';
         })
 }
