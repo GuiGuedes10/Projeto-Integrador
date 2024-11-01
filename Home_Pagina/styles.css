@@ -1,29 +1,34 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
-
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
     background-color: #ecf0f1;
 }
+
 .content {
+    display: flex;
+    flex-direction: row; /* Ensure columns are side by side */
+    justify-content: center; /* Center columns horizontally */
+    align-items: center; /* Center columns vertically */
     background-color: #fff;
     border-radius: 15px;
+    max-width: 960px;
     width: 960px;
-    height: 50%;
-    justify-content: space-between;
-    align-items: center;
+    height: 600px; /* Ajustável */
     position: relative;
+    padding: 20px;
 }
 .content::before {
     content: "";
@@ -33,9 +38,8 @@ body {
     height: 100%;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-
-
     left: 0;
+    align-items: center;
 }
 .title {
     font-size: 28px;
@@ -44,22 +48,39 @@ body {
 }
 .title-primary {
     color: #fff;
+    margin-bottom: 30px;
+    width: 150%;
+}
+
+.logo-academia{
+    margin-top: -10px;
+
 }
 .title-second {
     color: #cb1b45;
+    margin-bottom: 5px;
+    margin-left: 10%;
 }
 .description {
     font-size: 14px;
     font-weight: 300;
-    line-height: 30px;
+    line-height: 1.5;
 }
+
+
+
 .description-primary {
     color: #fff;
+    padding: 5px;
+    text-align: center;
+    margin-top: 10px;
 }
 .description-second {
     color: #7f8c8d;
     text-align: center;
-    width:100%;
+    width: 100%;
+    margin-bottom: 25px;
+    margin-left: 10%;
 }
 .btn {
     border-radius: 15px;
@@ -72,50 +93,328 @@ body {
     width: 150px;
     align-self: center;
     border: none;
-    margin-top: 1rem;
+    margin-top: 1rem;    
+}
+
+.second-content .second-column{
+    align-items: center;
+    justify-items: center;
+}
+
+.second-column .title-second{
+    margin-left: 60px;
+    margin-top: -65.5px;
+}
+
+.second-content .first-column .btn-primary{
+
+    margin-top: 55px;
+
+}
+
+.second-content .first-column{
+    margin-left: 60px;
+    margin-top: -28px;
+}
+
+.second-column .description-second{
+    align-items: center;
+
+}
+
+.second-content .second-column .title-second{
+    margin-left: 10px;
+    margin-top: 5px;   
+
+}
+
+.second-content .second-column .description-second{
+    margin-left: 10px;
+    margin-top: 5px;
+
+}
+.first-content .second-column .title-second{
+    font-size: 30px; /* Tamanho do título */
+    margin-bottom: 10px; /* Margem inferior */  
+
+}
+
+.first-content .second-column .description-second{
+    font-size: 12px; /* Tamanho da descrição */
+    margin-bottom: 15px; /* Margem inferior */
+}
+
+
+
+/* Estilos para as imagens laterais */
+.side-image-left, .side-image-right {
+    position: absolute;
+    margin-top: 12.5%;
+    max-height: 75vh; /* Limite de altura para a imagem */
+    max-width: 50vw; /* Limite de largura para a imagem */
+    object-fit: contain;
+    opacity: 0.9;
+}
+
+.side-image-left {
+    left: -5%;
+}
+.side-image-right {
+    right: -5%;
 }
 
 .btn-primary {
     background-color: transparent;
     border: 1px solid #fff;
-    transition: background-color .5s;
 }
 .btn-primary:hover {
     background-color: #fff;
+    border: 1px solid #cb1b45;
     color: #cb1b45;
 }
-.btn-second {
-    background-color: #cb1b45;
-    border: 1px solid #cb1b45;
-    transition: background-color .5s;
+.first-content .btn-second,
+.second-content .btn-second {
+    width: 25%;
+    transition: background-color 0.3s ease, color 0.3s ease, width 0.3s ease;
 }
+
+.second-content .btn-second {
+    background-color: #cb1b45;
+    border: 1px solid #cb1b45;  
+    margin-top: 50px;
+    width: 70%;
+    align-self: center;
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+    transition: width 0.3s ease;
+    border-radius: 15px;  
+ 
+}
+
+.first-content .btn-second {
+    background-color: #cb1b45;
+    border: 1px solid #cb1b45;  
+    margin-top: 8px;
+    width: 80%;
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+    transition: width 0.3s ease;
+    border-radius: 15px;  
+    align-items: center;
+    justify-content: center;
+    margin-left: 32%;
+    
+
+ 
+}
+
 .btn-second:hover {
     background-color: #fff;
     border: 1px solid #cb1b45;
     color: #cb1b45;
 }
-.first-content {
-    display: flex;
+
+
+.first-content .first-column {
+    z-index: 11;
+    width: 65%;
+    margin-top: 60px;
+    align-items: center;
+    justify-content: center;
+
 }
 .first-content .second-column {
     z-index: 11;
+    width: 65%;
+    margin-top: 60px;
+   
+}
+
+.second-content .second-column {
+    z-index: 11;
+    width: 65%;
+    margin-top: 60px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.second-content .first-column {
+    z-index: 11;
+    width: 65%;
+    margin-top: 60px;
+    align-items: center;
+    justify-content: center;
+
 }
 .first-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
     text-align: center;
     width: 40%;
     z-index: 10;
+    flex: 1;
+    padding: 20px; /* Add padding if needed for spacing */
+    position: relative;   
 }
+
 .second-column {
-    width: 60%;
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
+    width: 60%;
+    padding: 20px;
+    position: relative;    
+}
+
+.formulario-cadastro{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: -50px;
+}
+
+.formulario-login{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 40px;
+    
+}
+
+.form-cadastro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 10%;
+    align-items: center;  
+    
+}
+.input-box-login {
+    position: relative;
+    margin-bottom: 20px;
     align-items: center;
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    width: 55%;
+.input-box-login input {
+    width: 100%; /* Ajuste a largura conforme necessário */
+    padding: 10px; /* Aumentando o padding para tornar o input mais alto */
+    font-size: 1rem;
+    border: 1px solid #ccc; /* Cor padrão da borda */
+    border-radius: 4px;
+    transition: border-color 0.3s ease; /* Transição suave para a borda */
+    font-family: 'Poppins', sans-serif; /* Definindo a fonte para Poppins */
+    color: #333; /* Cor da fonte do input (cinza escuro) */
+}
+
+.input-box-login input:focus {
+    border-color: #cb1b45; /* Cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão */
+}
+
+.input-box-login label {
+    position: absolute;
+    left: 12px; /* Ajuste para a posição inicial */
+    transform: translateY(-50%);
+    color: #ccc; /* Cor padrão da label */
+    background-color: #fff;
+    padding: 0 5px;
+    transition: all 0.3s ease; /* Suaviza a transição */
+    pointer-events: none;
+    margin-top: -28px;
+}
+
+.input-box-login input:focus + label,
+.input-box-login input:not(:placeholder-shown) + label {
+    margin-top: -45px;
+    margin-left: 5px; /* Ajuste da posição ao flutuar */
+    font-size: 0.8rem;
+    color: #cb1b45; /* Cor da label ao flutuar */
+}
+
+
+
+.input-box-cadastro label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #7f8c8d;
+    font-size: 14px;
+    background-color: #fff; /* para que a label se destaque sobre a borda do input */
+    padding: 0 5px;
+    pointer-events: none; /* impede interação direta com a label */
+    transition: all 0.3s ease;
+}
+
+.input-box-cadastro {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-box-cadastro input {
+    width: 150%;
+    padding: 8px; /* Aumentando o padding para tornar o input mais alto */
+    font-size: 1rem;
+    border: 1px solid #ccc; /* Cor padrão da borda */
+    border-radius: 4px;
+    transition: border-color 0.3s ease; /* Transição suave para a borda */
+    font-family: 'Poppins', sans-serif; /* Definindo a fonte para Poppins */
+    color: #333; /* Cor da fonte do input (cinza escuro) */
+}
+
+.input-box-cadastro input:focus {
+    border-color: #cb1b45; /* Cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão */
+}
+
+.input-box-cadastro label {
+    position: absolute;
+    top: 50%;
+    left: 12px; /* Ajuste para a posição inicial */
+    transform: translateY(-50%);
+    color: #ccc; /* Cor padrão da label */
+    background-color: #fff;
+    padding: 1px;
+    transition: all 0.3s ease; /* Suaviza a transição */
+    pointer-events: none;
+}
+
+.input-box-cadastro input:focus + label,
+.input-box-cadastro input:not(:placeholder-shown) + label {
+    margin-top: -20px;
+    margin-left: 5px; /* Ajuste da posição ao flutuar */
+    font-size: 0.8rem;
+    color: #cb1b45; /* Cor da label ao flutuar */
+}
+label {
+    display: block;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+input:focus, select:focus {
+    border-color: #cb1b45; /* Pantone 2023 */
+    outline: none;
+    box-shadow: 0 0 8px rgba(203,27,69,0.4); /* Efeito de foco */
 }
 
 /* second content*/
@@ -127,10 +426,14 @@ body {
 .second-content .first-column {
     order: 2;
     z-index: -1;
+    
+    
 }
-.second-content .second-column {
+.second-content .second-column  {
     order: 1;
     z-index: -1;
+    width: 55%;   
+       
 }
 .password {
     color: #34495e;
@@ -141,8 +444,6 @@ body {
 .password::first-letter {
     text-transform: capitalize;
 }
-
-
 
 .sign-in-js .first-content .first-column {
     z-index: -1;
@@ -161,14 +462,17 @@ body {
     border-bottom-left-radius: 0;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    animation: slidein 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
-
+    animation: slidein 0.5s; /*MODIFIQUEI DE 3s PARA 1.3s*/
     z-index: 12;
 }
 
 .sign-up-js .content::before {
-    animation: slideout 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
-
+    right: 60%;
+    border-top-left-radius: 15;
+    border-bottom-left-radius: 15;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;   
+    animation: slideout 0.5s; /*MODIFIQUEI DE 3s PARA 1.3s*/
     z-index: 12;
 }
 
@@ -185,333 +489,210 @@ body {
     z-index: 13;    
 }
 
-
 /* DESLOCAMENTO CONTEÚDO ATRÁS DO CONTENT:BEFORE*/
 .sign-in-js .first-content .second-column {
-
     z-index: -1;
     position: relative;
-    animation: deslocamentoEsq 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+    animation: deslocamentoEsq 0.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
 }
 
-.sign-up-js .second-content .second-column {
-    position: relative;
+.sign-up-js .second-content .second-column {    
     z-index: -1;
-    animation: deslocamentoDir 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+    position: relative;
+    animation: deslocamentoDir 0.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
 }
 
-/*ANIMAÇÃOO CSS PARA O CONTEÚDO*/
+/*ANIMAÇÃO CSS PARA O CONTEÚDO*/
 
 @keyframes deslocamentoEsq {
-
-    from {
+    0% {
         left: 0;
         opacity: 1;
-        z-index: 12;
     }
-
+    5% {
+        left: -5px;
+        opacity: 0.9;
+    }
+    10% {
+        left: -10px;
+        opacity: 0.85;
+    }
+    15% {
+        left: -20px;
+        opacity: 0.7;
+    }
+    20% {
+        left: -30px;
+        opacity: 0.6;
+    }
     25% {
-        left: -80px;
-        opacity: .5;
-        /* z-index: 12; NÃO HÁ NECESSIDADE */
-    }
-
-    50% {
-        left: -100px;
-        opacity: .2;
-        /* z-index: 12; NÃO HÁ NECESSIDADE */
-    }
-
-    to {
-        left: -110px;
-        opacity: 0;
-        z-index: -1;
-    }
-}
-
-
-@keyframes deslocamentoDir {
-
-    from {
-        left: 0;
-        z-index: 12;
-    }
-
-    25% {
-        left: 80px;
-        /* z-index: 12;  NÃO HÁ NECESSIDADE*/
-    }
-
-    50% {
-        left: 100px;
-        /* z-index: 12; NÃO HÁ NECESSIDADE*/
-        /* background-color: yellow;  Exemplo que dei no vídeo*/
-    }
-
-    to {
-        left: 110px;
-        z-index: -1;
-    }
-}
-
-
-/*ANIMAÇÃO CSS*/
-
-@keyframes slidein {
-
-    from {
-        left: 0;
-        width: 40%;
-    }
-
-    25% {
-        left: 5%;
-        width: 50%;
-    }
-
-    50% {
-        left: 25%;
-        width: 60%;
-    }
-
-    75% {
-        left: 45%;
-        width: 50%;
-    }
-
-    to {
-        left: 60%;
-        width: 40%;
-    }
-}
-
-@keyframes slideout {
-
-    from {
-        left: 60%;
-        width: 40%;
-    }
-
-    25% {
-        left: 45%;
-        width: 50%;
-    }
-
-    50% {
-        left: 25%;
-        width: 60%;
-    }
-
-    75% {
-        left: 5%;
-        width: 50%;
-    }
-
-    to {
-        left: 0;
-        width: 40%;
-    }
-}
-
-/*VERSÃO MOBILE*/
-@media screen and (max-width: 1040px) {
-    .content {
-        width: 100%;
-        height: 100%;
-    }
-
-    .content::before {
-        width: 100%;
-        height: 40%;
-        top: 0;
-        border-radius: 0;
-    }
-    .first-content, .second-content {
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    .first-column, .second-column {
-        width: 100%;
-    }
-    
-    .sign-in-js .content::before {
-        top: 60%;
-        left: 0;
-        border-radius: 0;
-
-    }
-
-    .form {
-        width: 90%;
-    }
-    
-    /* ANIMAÇÃO MOBILE CSS*/
-
-    @keyframes deslocamentoEsq {
-
-        from {
-            top: 0;
-            opacity: 1;
-            z-index: 12;
-        }
-    
-        25% {
-            top: -80px;
-            opacity: .5;
-            /* z-index: 12; NÃO HÁ NECESSIDADE */
-        }
-    
-        50% {
-            top: -100px;
-            opacity: .2;
-            /* z-index: 12; NÃO HÁ NECESSIDADE */
-        }
-    
-        to {
-            top: -110px;
-            opacity: 0;
-            z-index: -1;
-        }
-    }
-    
-    
-    @keyframes deslocamentoDir {
-    
-        from {
-            top: 0;
-            z-index: 12;
-        }
-    
-        25% {
-            top: 80px;
-            /* z-index: 12;  NÃO HÁ NECESSIDADE*/
-        }
-    
-        50% {
-            top: 100px;
-            /* z-index: 12; NÃO HÁ NECESSIDADE*/
-            /* background-color: yellow;  Exemplo que dei no vídeo*/
-        }
-    
-        to {
-            top: 110px;
-            z-index: -1;
-        }
-    }
-    
-    
-    
-    @keyframes slidein {
-    
-        from {
-            top: 0;
-            height: 40%;
-        }
-    
-        25% {
-            top: 5%;
-            height: 50%;
-        }
-    
-        50% {
-            top: 25%;
-            height: 60%;
-        }
-    
-        75% {
-            top: 45%;
-            height: 50%;
-        }
-    
-        to {
-            top: 60%;
-            height: 40%;
-        }
-    }
-    
-    @keyframes slideout {
-    
-        from {
-            top: 60%;
-            height: 40%;
-        }
-    
-        25% {
-            top: 45%;
-            height: 50%;
-        }
-    
-        50% {
-            top: 25%;
-            height: 60%;
-        }
-    
-        75% {
-            top: 5%;
-            height: 50%;
-        }
-    
-        to {
-            top: 0;
-            height: 40%;
-        }
+        left: -40px;
+        opacity: 0.5;
     }
    
 }
 
-@media screen and (max-width: 740px) {
-    .form {
+@keyframes deslocamentoDir {
+    
+    
+    0% {
+        left: -40px;
+        opacity: 0.5;
+    }
+    5% {
+        left: -30px;
+        opacity: 0.6;
+    }
+    10% {
+        left: -20px;
+        opacity: 0.7;
+    }
+    15% {
+        left: -10px;
+        opacity: 0.85;
+    }
+    20% {
+        left: -5px;
+        opacity: 0.9;
+    }
+    25% {
+        left: 0px;
+        opacity: 1;
+    }
+   
+
+}
+
+/*ANIMAÇÃO CSS*/
+
+@keyframes slidein {
+    0% {
+        left: 0%;
+        width: 40%;
+    }
+    5% {
+        left: 5%;
+        width: 41%;
+    }
+    10% {
+        left: 10%;
+        width: 42%;
+    }
+    15% {
+        left: 15%;
+        width: 43%;
+    }
+    20% {
+        left: 20%;
+        width: 44%;
+    }
+    25% {
+        left: 25%;
+        width: 45%;
+    }
+    30% {
+        left: 30%;
+        width: 46%;
+    }
+    35% {
+        left: 35%;
+        width: 47%;
+    }
+    40% {
+        left: 40%;
+        width: 48%;
+    }
+    45% {
+        left: 45%;
+        width: 49%;
+    }
+    50% {
+        left: 50%;
         width: 50%;
     }
 }
 
-@media screen and (max-width: 425px) {
-    .form {
-        width: 100%;
+@keyframes slideout {
+    0% {
+        left: 50%;
+        width: 40%;
+    }
+    5% {
+        left: 45%;
+        width: 41%;
+    }
+    10% {
+        left: 40%;
+        width: 42%;
+    }
+    15% {
+        left: 35%;
+        width: 43%;
+    }
+    20% {
+        left: 30%;
+        width: 44%;
+    }
+    25% {
+        left: 25%;
+        width: 45%;
+    }
+    30% {
+        left: 20%;
+        width: 46%;
+    }
+    35% {
+        left: 15%;
+        width: 47%;
+    }
+    40% {
+        left: 10%;
+        width: 48%;
+    }
+    45% {
+        left: 5%;
+        width: 49%;
+    }
+    50% {
+        left: 0%;
+        width: 50%;
+
+}
+}
+
+@media (max-width: 1024px){
+    .content {
+        flex-direction: column;
+        height: auto;
+    }
+    .side-image-left, .side-image-right {
+        display: none; /* Esconde as imagens laterais em telas menores */
     }
 }
 
+/* Layout para Telas Menores */
+@media (max-width: 768px) {
+    .form, .input-box {
+        width: 100%;
+    }
+    .btn {
+        width: 100px;
+    }
+    .title, .description {
+        font-size: 1rem;
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Layout para Telas Mobile */
+@media (max-width: 425px) {
+    .content {
+        padding: 10px;
+    }
+    .title {
+        font-size: 1.5rem;
+    }
+    .btn {
+        font-size: 0.85rem;
+        padding: 8px 20px;
+    }
+}

@@ -45,6 +45,8 @@ form {
     width: 75%;
     margin-bottom: 20px;
     text-align: left;
+    margin-right: 10px;
+    position: relative;
 }
 
 #storageBrowserDIV{
@@ -64,6 +66,16 @@ form {
 #storageBrowser {
     width: auto;
 }
+
+div i{
+    font-size: 30px;
+    cursor: pointer;
+    width: auto;
+    position: absolute;
+    right: 3%;
+    color: #cb1b45;
+}
+
 
 label {
     display: block;
@@ -125,4 +137,3 @@ button:hover {
     text-align: center;
     width: 420px;
 }
-
