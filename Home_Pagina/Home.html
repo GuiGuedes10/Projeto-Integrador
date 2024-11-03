@@ -7,16 +7,20 @@
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+    <script src="script.js"></script>
+    <script src="cadastro.js"></script>
+    <script src="login.js"></script>
 </head>
 <body> 
-    <img src=gymbro.png alt="Imagem de um homem" class="side-image-left">  
-    <img src=gymwoman.png alt="Imagem de uma mulher" class="side-image-right">    
+    <img src="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\Imagens\gymbro.png" alt="Imagem de um homem" class="side-image-left">  
+    <img src="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\Imagens\gymwoman.png" alt="Imagem de uma mulher" class="side-image-right">    
 
     <div class="container">              
         <div class="content first-content">
             <div class="first-column">
                 <h2 class="title title-primary">Bem vindo de volta!</h2>
-                <img class="logo-academia" src="logo.png" alt="Logo da Academia" style="width: 100px;">
+                <img class="logo-academia" src="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\Imagens\logo.png" alt="Logo da Academia" style="width: 100px;">
                 <p class="description description-primary">Já possui cadastro?</p>
                 <button id="signin" class="btn btn-primary">Logar</button>
             </div>    
@@ -49,6 +53,7 @@
                             <input type="password" id="confirm-password" placeholder=" " required>
                             <label for="confirm-password">Repita sua senha!</label>
                         </div>
+                        <div class="message" id="UserMessage"></div>
                         <button class="btn btn-second" type="button" onclick="Cadastro_User()"> Quero fazer parte!</button>
                     </form>
                 </div>
@@ -58,7 +63,7 @@
         <div class="content second-content">
             <div class="first-column">
                 <h2 class="title title-primary">Olá, Seja Bem-Vindo!</h2>
-                <img class="logo-academia" src="logo.png" alt="Logo da Academia" style="width: 100px;">
+                <img class="logo-academia" src="C:\Users\celia\OneDrive\Documentos\JavaScript\Projeto Integrador\Imagens\logo.png" alt="Logo da Academia" style="width: 100px;">
                 <button id="signup" class="btn btn-primary">Cadastrar-se</button>
             </div>
             
@@ -69,11 +74,11 @@
                         <div class="input-box-login"> <!-- Nova classe para login -->
                             <input type="email" id="emailLogin" placeholder=" " required>
                             <label for="emailLogin">Email</label>
-                            <div class="message" id="loginMessage"></div>
                         </div>
                         <div class="input-box-login"> <!-- Nova classe para login -->
                             <input type="password" id="passwordLogin" placeholder=" " required>
                             <label for="passwordLogin">Senha</label>
+                            <div class="message" id="loginMessage"></div>
                             <button class="btn btn-second" onclick="LoginUser()" type="button">Logar</button>
                         </div>
                     </form>
@@ -81,8 +86,18 @@
             </div>            
         </div>         
     </div>    
+    <script>
+        new Cleave('#cpf', {
+    delimiters: ['.', '.', '-'],
+    blocks: [3, 3, 3, 2],
+    numericOnly: true
+});
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-    <script src="script.js"></script>
+new Cleave('#telefone', {
+    delimiters: ['(', ') ', '-'],
+    blocks: [0, 2, 5, 4],
+    numericOnly: true
+});
+    </script>
 </body>
 </html>

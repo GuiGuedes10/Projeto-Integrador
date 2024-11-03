@@ -1,25 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-    // Login de Usuário
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            const usuario = usuarios.find(u => u.email === email && u.login === password);
-
-            if (usuario) {
-                localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-                window.location.href = 'aluno.html';
-            } else {
-                alert('Email ou senha incorretos!');
-            }
-        });
-    }
 
     // Página do Aluno
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -64,6 +42,16 @@ document.addEventListener('DOMContentLoaded', function () {
             mensagemPermanencia.innerText = `Na última vez, você ficou ${Math.floor(tempoAnterior)} minutos na academia.`;
         }
     }
+
+    // Função de logout
+    const sairBtn = document.getElementById('sair');
+    if (sairBtn) {
+        sairBtn.addEventListener('click', function () {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = '../Home_Pagina/Home.html';
+        });
+    }
+
 document.getElementById('registrarEntrada').addEventListener('click', function() {
     let countdownContainer = document.getElementById('countdownContainer');
     let countdownElement = document.getElementById('countdown');
