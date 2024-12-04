@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const UserMessage = document.getElementById("UserGoal")
     const UserHoursMessage = document.getElementById("UserHours")
 
+    if(!token || !userId){
+    window.location.href = '../Home_Pagina/Home.html'; 
+    }
+
     try {
         const url = "http://localhost:3000/Get_user";
         await fetch(url, {
@@ -218,7 +222,7 @@ function LoadPage() {
             btnAdicionar.classList.add('btn-acao');
             btnAdicionar.setAttribute('aria-label', `Adicionar ${data[index].Name} ao treino`);
             btnAdicionar.addEventListener('click', () => {
-                console.log("ok");
+                adicionarExercicioAoTreino(data, data[index].Default_Series,data[index].Default_Repetitions ,data[index].Default_Weight);
             });
     
             li.appendChild(nomeExercicio);
@@ -318,39 +322,9 @@ function LoadPage() {
         // Atualizar Classificação
         const classificacao = calcularClassificacao(aluno.horasTreinadasSemana);
         elementos.classificacaoAluno.textContent = classificacao;
-
-        // Atualizar Gráfico
-        if (graficoProgresso) {
-            graficoProgresso.data.datasets[0].data = aluno.historicoSemanal;
-            graficoProgresso.update();
-        }
     }
 
     // **Inicialização do Gráfico de Progresso**
-    const ctx = document.getElementById('graficoProgresso').getContext('2d');
-    const graficoProgresso = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-            datasets: [{
-                label: 'Horas Treinadas',
-                data: aluno.historicoSemanal,
-                backgroundColor: 'rgba(187, 38, 73, 0.2)',
-                borderColor: 'rgba(187, 38, 73, 1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            },
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
 
     // **Atualizar informações iniciais**
     elementos.nomeAluno.textContent = aluno.nome;
@@ -467,14 +441,8 @@ function LoadPage() {
 
     // **Função para Renderizar Exercícios Disponíveis no Modal de Montar Treino**
     // **Função para Adicionar Exercício Ao Treino**
-    function adicionarExercicioAoTreino(exercicio) {
-        // Verificar se o exercício já foi adicionado
-        const existe = Array.from(elementos.meuTreino.children).some(li => li.querySelector('.exercicio-nome').textContent === exercicio.nome);
-        if (existe) {
-            mostrarNotificacao('Exercício já adicionado ao treino.');
-            return;
-        }
-
+    function adicionarExercicioAoTreino(exercicio, series, Weight, Repetitions) {
+       
         const li = document.createElement('li');
 
         const nomeDiv = document.createElement('div');
@@ -486,13 +454,13 @@ function LoadPage() {
 
         detalhesDiv.innerHTML = `
             <label>Séries:
-                <input type="number" min="1" value="${exercicio.series}" aria-label="Séries">
+                <input type="number" min="1" value="${series}" aria-label="Séries">
             </label>
             <label>Repetições:
-                <input type="number" min="1" value="${exercicio.repeticoes}" aria-label="Repetições">
+                <input type="number" min="1" value="${Weight}" aria-label="Peso">
             </label>
             <label>Peso (kg):
-                <input type="number" min="0" value="0" aria-label="Peso">
+                <input type="number" min="0" value="${Repetitions}" aria-label="Repetições">
             </label>
         `;
 
@@ -1042,11 +1010,6 @@ function LoadPage() {
             }
         
         }
-    });
-
-    document.getElementById('card-historico-treinos').addEventListener('click', () => {
-        abrirModal(elementos.modais.historicoTreinos);
-        carregarHistoricoTreinos();
     });
 
     document.getElementById('card-dicas-treino').addEventListener('click', () => {

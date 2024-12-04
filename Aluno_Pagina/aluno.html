@@ -92,15 +92,6 @@
                 <h2>Criar Treino</h2>
                 <p>Desenvolva treinos personalizados que se adequem às suas necessidades.</p>
             </div>
-
-            <div class="card" id="card-historico-treinos">
-                <div class="card-icon">
-                    <span class="material-icons-outlined">history</span>
-                </div>
-                <h2>Histórico</h2>
-                <p>Acompanhe seus treinos anteriores e seu progresso.</p>
-            </div>
-
             <div class="card" id="card-dicas-treino">
                 <div class="card-icon">
                     <span class="material-icons-outlined">lightbulb</span>
@@ -108,12 +99,6 @@
                 <h2>Dicas</h2>
                 <p>Receba sugestões para otimizar seus resultados e melhorar seu desempenho.</p>
             </div>
-        </section>
-
-        <!-- Gráfico de Progresso -->
-        <section class="chart-container">
-            <h2>Seu Progresso</h2>
-            <canvas id="graficoProgresso"></canvas>
         </section>
 
         <!-- Notificações -->
@@ -129,7 +114,7 @@
             <h2>Definir Meta Semanal</h2>
             <div class="slider-container">
                 <!-- Slider personalizado -->
-                <input type="range" id="inputMeta" min="1" max="10" value="UserGoal" step="1">
+                <input type="range" id="inputMeta" min="1" max="30" value="1" step="1">
                 <div class="slider-value">
                     Sua meta: <span id="valorMeta"></span>
                     <div class="message" id="UserGoal"></div>
