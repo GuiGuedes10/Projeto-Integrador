@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Meta tags essenciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia FitOn - Dashboard</title>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <!-- Animate.css para animações -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="aluno.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="icons/logo_escuro.svg" alt="Logo da Marca" class="logo-img">
+            <img src="icons/logo_texto_escuro.svg" alt="Texto do Logo" class="logo-text-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#"><span class="material-icons-outlined">home</span> Início</a></li>
+            <li><a href="#" id="perfilBtn"><span class="material-icons-outlined">person</span> Perfil</a></li>
+            <li><a href="#"><span class="material-icons-outlined">settings</span> Configurações</a></li>
+            <li><a href="#" id="sair"><span class="material-icons-outlined">logout</span> Sair</a></li>
+        </ul>
+        <div class="menu-toggle"><span class="material-icons-outlined">menu</span></div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Bem-vindo de Volta, <span id="nomeAluno">João Silva</span>!</h1>
+            <p>Transforme sua rotina com treinos personalizados e suporte contínuo.</p>
+            <div class="buttons-container">
+                <button class="btn-acao" id="botaoIniciarTreino"><span class="material-icons-outlined">play_circle</span> Iniciar Treino</button>
+                <button class="btn-acao" id="btnMontarTreino"><span class="material-icons-outlined">fitness_center</span> Montar Treino</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+        <!-- Dashboard -->
+        <section class="dashboard">
+            <!-- Card de Meta Semanal -->
+            <div class="card" id="card-meta-semanal">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">flag</span>
+                </div>
+                <h2>Meta Semanal</h2>
+                <p id="metaProgresso">60%</p>
+                <div class="progress-bar">
+                    <div class="progress" id="barraProgresso"></div>
+                </div>
+                <button class="btn-acao" id="definirMeta"><span class="material-icons-outlined">edit</span> Definir Meta</button>
+            </div>
+
+            <!-- Card de Tempo de Treino -->
+            <div class="card" id="card-tempo-treino">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">schedule</span>
+                </div>
+                <h2>Tempo de Treino</h2>
+                <p id="tempoTreino">00:00:00</p>
+            </div>
+
+            <!-- Card de Classificação -->
+            <div class="card" id="card-classificacao">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">bar_chart</span>
+                </div>
+                <h2>Classificação</h2>
+                <p id="classificacaoAluno">Iniciante</p>
+            </div>
+
+            <!-- Card de Horas Treinadas na Semana -->
+            <div class="card" id="card-horas-semana">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">timelapse</span>
+                </div>
+                <h2>Horas na Semana</h2>
+                <div class="message" id="UserHours"></div>
+            </div>
+
+            <!-- Outros Cards -->
+            <div class="card" id="card-criar-treino">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">add_circle</span>
+                </div>
+                <h2>Criar Treino</h2>
+                <p>Desenvolva treinos personalizados que se adequem às suas necessidades.</p>
+            </div>
+
+            <div class="card" id="card-historico-treinos">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">history</span>
+                </div>
+                <h2>Histórico</h2>
+                <p>Acompanhe seus treinos anteriores e seu progresso.</p>
+            </div>
+
+            <div class="card" id="card-dicas-treino">
+                <div class="card-icon">
+                    <span class="material-icons-outlined">lightbulb</span>
+                </div>
+                <h2>Dicas</h2>
+                <p>Receba sugestões para otimizar seus resultados e melhorar seu desempenho.</p>
+            </div>
+        </section>
+
+        <!-- Gráfico de Progresso -->
+        <section class="chart-container">
+            <h2>Seu Progresso</h2>
+            <canvas id="graficoProgresso"></canvas>
+        </section>
+
+        <!-- Notificações -->
+        <div id="notificacao" class="notificacao"></div>
+    </main>
+    
+    <!-- Modais -->
+
+    <!-- Modal de Definição de Meta -->
+    <div id="modalMeta" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalMeta" class="close">&times;</span>
+            <h2>Definir Meta Semanal</h2>
+            <div class="slider-container">
+                <!-- Slider personalizado -->
+                <input type="range" id="inputMeta" min="1" max="10" value="UserGoal" step="1">
+                <div class="slider-value">
+                    Sua meta: <span id="valorMeta"></span>
+                    <div class="message" id="UserGoal"></div>
+                </div>
+            </div>
+            <button id="salvarMeta" class="btn-acao"><i class="fas fa-save"></i> Salvar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Perfil -->
+    <div id="modalPerfil" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalPerfil" class="close">&times;</span>
+            <h2>Meu Perfil</h2>
+            <div class="perfil-container">
+                <div class="foto-perfil">
+                    <img id="imgPerfil" src="https://via.placeholder.com/150" alt="Foto de Perfil">
+                    <label for="uploadFoto" class="upload-label" title="Alterar Foto">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+                </div>
+                <div class="dados-perfil">
+                    <label for="perfilNome">Nome:</label>
+                    <input type="text" id="perfilNome" value="João Silva">
+                    <label for="perfilEmail">Email:</label>
+                    <input type="email" id="perfilEmail" value="joao@example.com">
+                    <button id="salvarPerfil" class="btn-acao"><i class="fas fa-save"></i> Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Montagem de Treino -->
+    <div id="modalTreino" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTreinoTitulo">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <button id="fecharModalTreino" class="close" aria-label="Fechar Modal">&times;</button>
+            <h2 id="modalTreinoTitulo">Montar Treino</h2>
+            <div class="nome-treino-container">
+                <label for="nomeTreino">Nome do Treino:</label>
+                <input type="text" id="nomeTreino" placeholder="Ex: Treino A, Treino Hipertrofia" aria-required="true">
+            </div>
+            <div class="treino-container">
+                <div class="lista-exercicios">
+                    <h3>Exercícios Disponíveis</h3>
+                    <ul id="exerciciosDisponiveis" aria-label="Exercícios Disponíveis">
+                        <!-- Lista de exercícios será preenchida pelo JavaScript -->
+                    </ul>
+                </div>
+                <div class="treino-personalizado">
+                    <h3>Meu Treino</h3>
+                    <ul id="meuTreino" aria-label="Meu Treino">
+                        <!-- Exercícios adicionados pelo usuário -->
+                    </ul>
+                </div>
+            </div>
+            <button id="salvarTreino" class="btn-acao"><i class="fas fa-save"></i> Salvar Treino</button>
+        </div>
+    </div>
+
+    <!-- Modal de Meus Treinos -->
+    <div id="modalMeusTreinos" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalMeusTreinos" class="close">&times;</span>
+            <h2>Meus Treinos</h2>
+            <div id="listaMeusTreinos">
+                <!-- Lista de treinos montados será preenchida pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Histórico de Treinos -->
+    <div id="modalHistoricoTreinos" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalHistoricoTreinos" class="close">&times;</span>
+            <h2>Histórico de Treinos</h2>
+            <div id="listaHistoricoTreinos">
+                <!-- Lista de históricos de treinos será preenchida pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas de Treino -->
+    <div id="modalDicasTreino" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalDicasTreino" class="close">&times;</span>
+            <h2>Dicas de Treino</h2>
+            <div id="conteudoDicasTreino">
+                <!-- Conteúdo das dicas de treino será preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Escolha de Treino -->
+    <div id="modalEscolherTreino" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalEscolherTreino" class="close">&times;</span>
+            <h2>Escolha um Treino</h2>
+            <div id="listaTreinosParaEscolher">
+                <!-- Lista de treinos disponíveis para escolher será preenchida pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Início de Treino -->
+    <div id="modalConfirmarInicio" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalConfirmarInicio" class="close">&times;</span>
+            <h2>Confirmar Início</h2>
+            <p id="mensagemConfirmacao">Você está prestes a iniciar o treino "<span id="nomeTreinoConfirmacao"></span>". Deseja continuar?</p>
+            <div class="acoes-confirmacao">
+                <button id="confirmarInicio" class="btn-acao"><i class="fas fa-check-circle"></i> Confirmar</button>
+                <button id="cancelarInicio" class="btn-acao"><i class="fas fa-times-circle"></i> Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Contagem Regressiva -->
+    <div id="modalCountdown" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <h2>Treino Iniciando em:</h2>
+            <div id="contadorCountdown" class="countdown">
+                <div class="countdown-circle">
+                    <span id="countdownNumber">5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Exercícios em Andamento -->
+    <div id="modalExercicios" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalExercicios" class="close">&times;</span>
+            <h2>Treino: <span id="nomeTreinoAtual"></span></h2>
+            <div class="barra-progresso-exercicios">
+                <div class="progress-bar-exercicios">
+                    <div class="progress-exercicios" id="barraProgressoExercicios"></div>
+                </div>
+                <p id="percentualProgressoExercicios">0% Concluído</p>
+            </div>
+            <ul id="listaExerciciosTreino">
+                <!-- Exercícios para concluir serão preenchidos pelo JavaScript -->
+            </ul>
+            <!-- Contador de Tempo no Modal de Exercícios -->
+            <div id="contadorCountdown" class="contador">
+                00:00:00
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Entrada na Academia -->
+    <div id="modalEntrada" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalEntrada" class="close">&times;</span>
+            <h2>Registrar Entrada</h2>
+            <label for="entradaID">Digite seu ID:</label>
+            <input type="text" id="entradaID">
+            <button id="confirmarEntrada" class="btn-acao"><i class="fas fa-check-circle"></i> Confirmar Entrada</button>
+        </div>
+    </div>
+
+    <!-- Modal de Saída da Academia -->
+    <div id="modalSaida" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+            <span id="fecharModalSaida" class="close">&times;</span>
+            <h2>Registrar Saída</h2>
+            <label for="saidaID">Digite seu ID:</label>
+            <input type="text" id="saidaID">
+            <button id="confirmarSaida" class="btn-acao"><i class="fas fa-check-circle"></i> Confirmar Saída</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-footer">
+            <p>&copy; 2024 Academia FitOn. Todos os direitos reservados.</p>
+            <ul class="footer-links">
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Contato</a></li>
+                <li><a href="#">Termos de Uso</a></li>
+                <li><a href="#">Política de Privacidade</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Seu script JavaScript -->
+    <script src="aluno.js"></script>
+</body>
+</html>

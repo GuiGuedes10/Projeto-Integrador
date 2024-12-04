@@ -9,14 +9,17 @@ async function LoginUser(){
     try {
         const response = await fetch(url, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+             },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
             const json = await response.json();
             sessionStorage.setItem("token", json.token);
-            window.location.href = '../Page_User/aluno.html';
+            sessionStorage.setItem("id", json.userId);
+            sessionStorage.setItem("Tipo", json.type);
+            window.location.href = '../Aluno_Pagina/aluno.html';
         } else {
             errorMessage.innerHTML = 'Credenciais inválidas. Tente novamente.';
         }

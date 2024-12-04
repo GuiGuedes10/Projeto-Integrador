@@ -1,0 +1,1115 @@
+/* aluno.css */
+
+/* Importação da Fonte Poppins e Animate.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+/* Variáveis de Cores */
+:root {
+    --primary-color: #c81e32; /* Pantone Viva Magenta */
+    --secondary-color: #FFFFFF; /* White */
+    --dark-gray: #3f3f3f; /* Dark Gray */
+    --background-color: #F5F5F5; /* Light Gray */
+    --card-background: #FFFFFF; /* White */
+    --text-color: #3f3f3f; /* Dark Gray */
+    --hover-bg: #a81c3a; /* Darker shade for hover */
+    --modal-overlay: rgba(0, 0, 0, 0.6); /* Modal background */
+    --progress-bg: #E0E0E0; /* Progress bar background */
+    --progress-fill: #c81e32; /* Solid color for progress bar */
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
+/* Reset de Estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card-background);
+    padding: 15px 30px;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+}
+
+.logo-text-img {
+    height: 30px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li a {
+    color: var(--primary-color);
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.nav-links li a:hover {
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+}
+
+.nav-links li a i {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.menu-toggle.active i {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+}
+
+/* Header */
+.header {
+    position: relative;
+    height: 60vh;
+    background: 
+        url('bg.png') no-repeat left bottom,
+        url('Ativo\ 1.svg') no-repeat right center,
+        linear-gradient(90deg, rgba(255,0,0,1) 40%, rgba(128,0,0,1) 100%);    
+    background-size: contain, auto 80%, cover; /* Ajusta as imagens e o gradiente */
+    background-position: left bottom, 1450px, center; /* Define as posições */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.header-content {
+    text-align: center;
+    color: var(--secondary-color);
+    max-width: 700px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow-dark);
+    margin-left: 150px;
+}
+
+.header-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.header-content h1 span {
+    color: var(--secondary-color);
+}
+
+.header-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: var(--secondary-color);
+}
+
+.header-content .btn-acao {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.header-content .btn-acao:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: var(--background-color);
+}
+/* Conteúdo Principal */
+.container {
+    flex: 1;
+    padding: 40px 20px;
+}
+
+/* Dashboard */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+    justify-items: center;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px var(--shadow-dark);
+}
+
+.card-icon {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.card-icon i {
+    font-size: 2em;
+}
+
+.card h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 1em;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.card .btn-acao {
+    margin-top: 15px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    width: 100%;
+}
+
+.card .btn-acao:hover {
+    background-color: var(--hover-bg);
+    color: var(--secondary-color);
+}
+
+/* Barra de Progresso */
+.progress-bar {
+    background-color: var(--progress-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.progress {
+    background-color: var(--progress-fill);
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Gráfico de Progresso */
+.chart-container {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.chart-container h2 {
+    font-size: 2em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+#graficoProgresso {
+    width: 100%;
+    height: 400px;
+}
+
+/* Notificações */
+.notificacao {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px var(--shadow-light);
+    transition: bottom 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    z-index: 1002;
+    font-weight: 500;
+    opacity: 0;
+}
+
+.notificacao.show {
+    bottom: 20px;
+    opacity: 1;
+}
+
+/* Modais */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--modal-overlay);
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 8px 16px var(--shadow-dark);
+    animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-60%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 2em;
+}
+
+.modal-content p {
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+/* Botões dentro dos Modais */
+.modal-content .btn-acao {
+    width: auto;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-content .btn-acao:hover {
+    background-color: var(--hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-content .acoes-confirmacao {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modal-content .acoes-confirmacao .btn-acao {
+    width: 45%;
+    border-radius: 5px;
+}
+
+.modal-content .acoes-confirmacao .btn-acao:first-child {
+    background-color: var(--primary-color);
+}
+
+.modal-content .acoes-confirmacao .btn-acao:first-child:hover {
+    background-color: var(--hover-bg);
+}
+
+.modal-content .acoes-confirmacao .btn-acao:last-child {
+    background-color: #ccc;
+    color: #333;
+}
+
+.modal-content .acoes-confirmacao .btn-acao:last-child:hover {
+    background-color: #bbb;
+}
+
+/* Fechar Modais */
+.close {
+    color: var(--dark-gray);
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Formulários nos Modais */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group label {
+    font-size: 1em;
+    color: var(--dark-gray);
+    margin-bottom: 5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Slider Container */
+.slider-container {
+    position: relative;
+    width: 100%;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.slider-container .slider-value {
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.slider-container input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    margin: 20px 0;
+}
+
+.slider-container input[type="range"]:focus {
+    outline: none;
+}
+
+.slider-container input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    background: var(--progress-bg);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slider-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -7px;
+}
+
+.slider-container input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    background: var(--progress-bg);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slider-container input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Para o Internet Explorer */
+.slider-container input[type="range"]::-ms-track {
+    width: 100%;
+    height: 10px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+.slider-container input[type="range"]::-ms-fill-lower {
+    background: var(--progress-bg);
+    border-radius: 5px;
+}
+
+.slider-container input[type="range"]::-ms-fill-upper {
+    background: var(--progress-bg);
+    border-radius: 5px;
+}
+
+.slider-container input[type="range"]::-ms-thumb {
+    width: 24px;
+    height: 24px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Modal de Montar Treino Estilizado */
+.nome-treino-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nome-treino-container label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.nome-treino-container input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.treino-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.lista-exercicios, .treino-personalizado {
+    flex: 1;
+    min-width: 300px;
+}
+
+.lista-exercicios h3, .treino-personalizado h3 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.lista-exercicios ul, .treino-personalizado ul {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-exercicios li, .treino-personalizado li {
+    background-color: var(--background-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lista-exercicios li:hover, .treino-personalizado li:hover {
+    background-color: #f0f0f0;
+}
+
+.lista-exercicios li button, .treino-personalizado li button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.lista-exercicios li button:hover, .treino-personalizado li button:hover {
+    background-color: var(--hover-bg);
+}
+
+.exercicio-detalhes {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.exercicio-detalhes label {
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.exercicio-detalhes input {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.exercicio-acoes {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.treino-personalizado li {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.treino-personalizado .exercicio-nome {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.treino-personalizado .exercicio-detalhes {
+    width: 100%;
+}
+
+.treino-personalizado .exercicio-acoes {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#salvarTreino {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Modal de Exercícios em Andamento */
+#modalExercicios .modal-content {
+    max-width: 800px;
+}
+
+#listaExerciciosTreino {
+    list-style: none;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#listaExerciciosTreino li {
+    background-color: var(--background-color);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#listaExerciciosTreino li .checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+#listaExerciciosTreino li .checkbox-container input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+#listaExerciciosTreino li .checkbox-container label {
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+#listaExerciciosTreino li.exercicio-concluido p {
+    text-decoration: line-through;
+    color: green;
+}
+
+#listaExerciciosTreino li p {
+    flex: 1;
+    margin: 0;
+}
+
+/* Estilização do Checkbox */
+input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background-color: #e6e6e6;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 14px;
+    border: solid var(--secondary-color);
+    border-width: 0 3px 3px 0;
+    top: 2px;
+    left: 8px;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+input[type="checkbox"]:checked::after {
+    opacity: 1;
+}
+
+/* Contagem Regressiva */
+.countdown {
+    font-size: 4em;
+    color: var(--primary-color);
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.countdown-circle {
+    width: 100px;
+    height: 100px;
+    border: 5px solid var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#contadorCountdown {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+/* Barra de Progresso Personalizada */
+.barra-progresso-exercicios {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    flex-direction: column;
+}
+
+.progress-bar-exercicios {
+    background-color: var(--progress-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.progress-exercicios {
+    background-color: var(--progress-fill);
+    height: 100%;
+    width: 0%;
+    transition: width 1s ease-in-out;
+}
+
+#percentualProgressoExercicios {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--card-background);
+    text-align: center;
+    padding: 20px;
+    color: var(--dark-gray);
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer .footer-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.footer .footer-links li a {
+    color: var(--dark-gray);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer .footer-links li a:hover {
+    color: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        margin: 0 auto;
+    }
+
+    .treino-container {
+        flex-direction: column;
+    }
+
+    .nome-treino-container input {
+        width: 100%;
+    }
+
+    .treino-personalizado, .lista-exercicios {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content h1 {
+        font-size: 1.8em;
+    }
+
+    .header-content p {
+        font-size: 1em;
+    }
+
+    .card h2 {
+        font-size: 1.3em;
+    }
+
+    .card p {
+        font-size: 1em;
+    }
+
+    .btn-acao {
+        font-size: 0.9em;
+        padding: 8px 16px;
+        max-width: 150px;
+    }
+
+    .progresso {
+        padding: 10px;
+    }
+
+    .barra-progresso-exercicios {
+        width: 90%;
+    }
+
+    .chart-container h2 {
+        font-size: 1.5em;
+    }
+
+    .modal-content h2,
+    .modal-content p {
+        font-size: 1em;
+    }
+}
+
+/* Estilização dos ícones Font Awesome */
+.btn-acao i {
+    font-size: 1em;
+}
+
+.btn-acao:hover i {
+    color: var(--secondary-color);
+}
+
+/* Ajuste das listas nos modais */
+#exerciciosDisponiveis,
+#meuTreino,
+#listaMeusTreinos,
+#listaHistoricoTreinos,
+#conteudoDicasTreino,
+#listaTreinosParaEscolher,
+#listaExerciciosTreino {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#exerciciosDisponiveis li,
+#meuTreino li,
+#listaMeusTreinos li,
+#listaExerciciosTreino li,
+#conteudoDicasTreino li {
+    background-color: var(--background-color);
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#exerciciosDisponiveis li button,
+#meuTreino li button,
+#listaExerciciosTreino li button,
+.btn-remover-exercicio {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#exerciciosDisponiveis li button:hover,
+#meuTreino li button:hover,
+#listaExerciciosTreino li button:hover,
+.btn-remover-exercicio:hover {
+    background-color: var(--hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Estilização específica para o botão "Definir Meta" */
+#card-meta-semanal .btn-acao {
+    margin-top: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    width: 100%;
+}
+
+#card-meta-semanal .btn-acao:hover {
+    background-color: var(--hover-bg);
+    color: var(--secondary-color);
+}
+
+/* Estilização dos Modais para Melhor Aparência */
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.perfil-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.foto-perfil {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.foto-perfil img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.upload-label {
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.upload-label i {
+    font-size: 1.5em;
+}
+
+.dados-perfil {
+    flex: 2;
+    min-width: 200px;
+}
+
+.dados-perfil label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.dados-perfil input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.nome-treino-container {
+    margin-bottom: 20px;
+}
+
+.nome-treino-container label {
+    font-weight: 500;
+}
+
+.nome-treino-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.treino-salvo {
+    background-color: var(--background-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.treino-salvo h3 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.treino-salvo ul {
+    list-style: none;
+    padding: 0;
+}
+
+.treino-salvo ul li {
+    padding: 5px 0;
+}
+
+.acoes-treino {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.historico-item {
+    background-color: var(--background-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.historico-item p {
+    margin-bottom: 5px;
+}
+
+#listaHistoricoTreinos .historico-item:last-child {
+    margin-bottom: 0;
+}

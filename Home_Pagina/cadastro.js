@@ -33,8 +33,10 @@ async function Cadastro_User() {
         if (response.ok) {
             const json = await response.json();
             sessionStorage.setItem("token", json.token);
+            sessionStorage.setItem("id", json.id);
+            sessionStorage.setItem("Tipo", json.type);
             console.log('Cadastrado');
-            window.location.href = '../Page_User/aluno.html';
+            window.location.href = '../Aluno_Pagina/aluno.html';
         } else {
             errorMessage.innerHTML = 'Erro ao cadastrar. Tente novamente mais tarde!';
         }
