@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+		/>
+
+		<link rel="stylesheet" href="gerenteteste.css" />
+        <script src="gerenteteste.js"></script>
+
+		<title>Academia FitOn</title>
+	</head>
+	<body>
+		<div class="container">
+			<!-- parte do lado direito da página ;D-->
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img
+							src="icons/logo_escuro.svg"
+							alt="Logo da Marca"
+							class="logo-img"
+						/>
+						<img
+							src="icons/logo_texto_escuro.svg"
+							alt="Texto do Logo"
+							class="logo-text-img"
+						/>
+					</div>
+				
+				<!-- fim do topo-->
+
+				<div class="sidebar">
+                    <a href="../Aluno_Pagina/aluno.html">
+					<button id="btnhome" class="btninicio" onclick="home()"><span class="material-symbols-outlined">home</span></button>
+					<h3>Início</h3>
+                    </a>
+
+                    <a href="../Home_Pagina/Home.html">
+					<button id="btnsaor" class= "btnlogout" onclick="logout()"><span class="material-symbols-outlined">logout</span></button>
+					<h3>Sair</h3>
+                    </a>
+
+				</div>
+			</aside>
+            <!--seção principal-->
+			<main>
+                
+
+            <div class="background">
+                <div class="content">
+                    <h1>Bem-vindo(a), Professor(a)!</h1>
+                </div>
+
+            <div class="insights">
+
+                <!--classificação-->
+                  <div class="classification">
+                    <span class="material-symbols-outlined">person</span>
+                     <div class="middle">
+                        <div class="left">
+                            <h1>Classificação</h1>
+                            <h3>Gerente</h3>
+                        </div>
+                     </div>
+                  </div>
+                <!--fim da classificação-->
+
+                <!--criar treino-->
+                <div class="CriarTreino">
+                    <button id="botaoCriarTreino" class="btnborder" onclick="abrirModal()"><span class="material-symbols-outlined">play_arrow</span>
+                    </button>
+                     <div class="middle">
+                        <div class="left">
+                         <h1>Criar Treino</h1>
+                        </div>
+                     </div>
+                     <div id="CriarTreino"></div>
+                  </div>
+                <!--fimm-->
+
+                <!--gerar relatórioo-->
+                <div class="GerarRelatorio">
+                    <button id="botaoGerarRelatorio" class="btnborder" onclick="gerarRelatorio()"><span class="material-symbols-outlined">description</span>
+                    </button>
+                     <div class="middle">
+                        <div class="left">
+                         <h1>Gerar Relatório</h1>
+                        </div>
+                     </div>
+                     <div id="GerarRelatorio"></div>
+                </div>
+                <!--fimm-->
+
+                <div class="Relatorio_tabela" id="geris" style="display:none">
+                    <h1>Relatório Semestral</h1>
+                     <table id="tabela_relatorio">
+                        <thead>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>Classificação</th>
+                                <th>Total</th>
+                                <th>Ativo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>João Silva</td>
+                                <td>iniciante</td>
+                                <td> 14hrs</td>
+                            </tr>
+                        </tbody>
+                     </table>
+
+                </div>
+            </div>
+            <div id="notificacao" class="notificacao"></div>
+			</main>
+            <!--fim da seção principal-->
+		</div>
+        <div id="modalTreino" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTreinoTitulo">
+            <div class="modal-content animate__animated animate__fadeInDown">
+                <button id="fecharModalTreino" class="close" aria-label="Fechar Modal" onclick="fecharModal()">&times;</button>
+                <h2 id="modalTreinoTitulo">Criar Exercício</h2>
+                <div class="nome-treino-container">
+                    <form name="exercicio_adicionar"></form>
+                     <label for="exercicioid">Exercício que deseja adicionar:</label>
+                     <input type="text" id="exercicioid" name="exercicioid"><br><br>
+                     <label for="repeticoesid">Quantas repetições?</label>
+                     <input type="number" id="repeticoesid" name="repeticoesid"><br><br>
+                     <label for="seriesid">Quantas séries?</label>
+                     <input type="number" id="seriesid" name="seriesid"><br><br>
+                     <label for="cargaid">Qual carga?</label>
+                     <input type="number" id="cargaid" name="cargaid"><br><br>
+                    <button id="salvarexercicio" class="btn-acao" onclick="salvarexercicio()"><i class="fas fa-save"></i> Salvar Exercício</button>
+            </form>
+            </div>
+        </div>
+	</body>
+</html>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="aluno.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -20,9 +21,8 @@
             <img src="icons/logo_texto_escuro.svg" alt="Texto do Logo" class="logo-text-img">
         </div>
         <ul class="nav-links">
-            <li><a href="#"><span class="material-icons-outlined">home</span> Início</a></li>
             <li><a href="#" id="perfilBtn"><span class="material-icons-outlined">person</span> Perfil</a></li>
-            <li><a href="#"><span class="material-icons-outlined">settings</span> Configurações</a></li>
+            <li><a href="../Gerente/gerenteteste.html" id="GerentePage"><span class="material-icons-outlined" id="GerentePageIcon">settings</span> Gerente</a></li>
             <li><a href="#" id="sair"><span class="material-icons-outlined">logout</span> Sair</a></li>
         </ul>
         <div class="menu-toggle"><span class="material-icons-outlined">menu</span></div>
@@ -31,7 +31,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <h1>Bem-vindo de Volta, <span id="nomeAluno">João Silva</span>!</h1>
+            <h1>Bem-vindo de Volta, <span id="nomeAluno"></span>!</h1>
             <p>Transforme sua rotina com treinos personalizados e suporte contínuo.</p>
             <div class="buttons-container">
                 <button class="btn-acao" id="botaoIniciarTreino"><span class="material-icons-outlined">play_circle</span> Iniciar Treino</button>
@@ -134,20 +134,11 @@
         <div class="modal-content animate__animated animate__fadeInDown">
             <span id="fecharModalPerfil" class="close">&times;</span>
             <h2>Meu Perfil</h2>
-            <div class="perfil-container">
-                <div class="foto-perfil">
-                    <img id="imgPerfil" src="https://via.placeholder.com/150" alt="Foto de Perfil">
-                    <label for="uploadFoto" class="upload-label" title="Alterar Foto">
-                        <i class="fas fa-camera"></i>
-                    </label>
-                    <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
-                </div>
                 <div class="dados-perfil">
                     <label for="perfilNome">Nome:</label>
-                    <input type="text" id="perfilNome" value="João Silva">
-                    <label for="perfilEmail">Email:</label>
-                    <input type="email" id="perfilEmail" value="joao@example.com">
+                    <input type="text" id="perfilNome" value="">
                     <button id="salvarPerfil" class="btn-acao"><i class="fas fa-save"></i> Salvar</button>
+                    <button id="salvarPerfil" class="btn-acao" onclick="DisableUser()"><i class="fas fa-save"></i>Excluir Conta</button>
                 </div>
             </div>
         </div>
@@ -264,9 +255,9 @@
         <div class="modal-content animate__animated animate__fadeInDown">
             <span id="fecharModalEntrada" class="close">&times;</span>
             <h2>Registrar Entrada</h2>
-            <label for="entradaID">Digite seu ID:</label>
-            <input type="text" id="entradaID">
-            <button id="confirmarEntrada" class="btn-acao"><i class="fas fa-check-circle"></i> Confirmar Entrada</button>
+            <label for="entradaID">Digite seu CPF:</label>
+            <input type="text" id="entryUserCpf" required>
+            <button class="btn-acao" id="ConfirmarCPFbtn"><i class="fas fa-check-circle" ></i> Confirmar Entrada</button>
         </div>
     </div>
 
@@ -298,5 +289,22 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Seu script JavaScript -->
     <script src="aluno.js"></script>
+    <script>
+        new Cleave('#entryUserCpf', {
+        delimiters: ['.', '.', '-'],
+        blocks: [3, 3, 3, 2],
+        numericOnly: true
+        });
+    </script>
+    <script>
+        const userType = sessionStorage.getItem('Tipo');
+        const BotaoGerente = document.getElementById('GerentePage');
+        const GerentePageIcon = document.getElementById('GerentePageIcon');
+
+        if(userType === "Usuario"){
+            BotaoGerente.remove();
+            GerentePageIcon.remove();
+        }
+    </script>
 </body>
 </html>

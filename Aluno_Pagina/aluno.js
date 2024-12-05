@@ -12,16 +12,16 @@ const aluno = {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-
-
     const token = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('id');
     const UserMessage = document.getElementById("UserGoal")
     const UserHoursMessage = document.getElementById("UserHours")
 
-    if(!token || !userId){
+    if (!token || !userId) {
         window.location.href = '../Home_Pagina/Home.html';
     }
+
+
 
     try {
         const url = "http://localhost:3000/Get_user";
@@ -207,6 +207,115 @@ function LoadPage() {
         classificacaoAluno: document.getElementById('classificacaoAluno')
     };
 
+    async function LoadPrevSession() {
+        try {
+            const token = sessionStorage.getItem('token');
+            const userId = sessionStorage.getItem('id');
+
+            const url = "http://localhost:3000/verify_user_running_session";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ userid: userId })
+            })
+                .then(async (response) => {
+                    if (response.ok) return await response.json()
+                    else console.error('Erro ao buscar usuário.')
+                })
+                .then(data => {
+                    const startTime = data.trainingSession.startTime;
+
+                    const training = {
+                        id: data.trainingSession.id,
+                        nome: data.sessionExercises.Name,
+                        exercicios: []
+                    }
+
+                    for (let index = 0; index < data.sessionExercises.Exercise_Users.length; index++) {
+                        const ex = {
+                            id: data.sessionExercises.Exercise_Users[index].id,
+                            nome: data.sessionExercises.Exercise_Users[index].Name,
+                            peso: data.sessionExercises.Exercise_Users[index].Weight,
+                            repeticoes: data.sessionExercises.Exercise_Users[index].Repetitions,
+                            series: data.sessionExercises.Exercise_Users[index].Series
+                        }
+
+                        training.exercicios.push(ex);
+                    }
+
+
+                    aluno.treinoAtual = training;
+
+                    const startTimeDate = new Date(startTime);
+                    timerInterval = setInterval(() => atualizarContador(startTimeDate), 1000);
+
+                    treinoIniciado = true;
+                    elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
+                    mostrarNotificacao('Treino iniciado! Bom treino!');
+                    abrirModalExercicios();
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    LoadPrevSession()
+
+    async function ConfirmarCPF() {
+        const cpf = document.getElementById("entryUserCpf").value
+
+        const userId = sessionStorage.getItem('id');
+        const token = sessionStorage.getItem('token');
+
+        const url = "http://localhost:3000/VeryfiUser";
+
+        try {
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ userId: userId, CPF: cpf })
+            })
+                .then(async (response) => {
+                    if (response.ok) {
+                        try {
+                            return await response.json()
+                        }
+                        catch (err) {
+                            console.error('Erro ao buscar Cpf do usuario.')
+                            return null
+                        }
+                    }
+                    else console.error('Erro ao buscar usuário.')
+                })
+                .then((data) => {
+                    if (data) {
+                        fecharModal(elementos.modais.entrada);
+                        abrirModal(elementos.modais.escolherTreino);
+                        carregarTreinosDisponiveis();
+                    } else {
+                        alert('CPF não encontrado')
+                    }
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    document.getElementById('ConfirmarCPFbtn').addEventListener('click', ConfirmarCPF);
+
+    function abrirModal(modal) {
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // Evita scroll na página principal
+    }
+
     function GetDefaultExercise(data) {
         elementos.exerciciosDisponiveis.innerHTML = '';
 
@@ -366,52 +475,44 @@ function LoadPage() {
     // **Atualizar informações iniciais**
     elementos.nomeAluno.textContent = aluno.nome;
     elementos.perfilNome.value = aluno.nome;
-    elementos.perfilEmail.value = aluno.email;
     atualizarDados();
 
     // **Função para Salvar Perfil**
-    function salvarPerfil() {
+    async function salvarPerfil() {
         const novoNome = elementos.perfilNome.value.trim();
-        const novoEmail = elementos.perfilEmail.value.trim();
+        const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('id');
 
-        if (novoNome === '' || novoEmail === '') {
+
+
+        if (novoNome === '') {
             mostrarNotificacao('Por favor, preencha todos os campos do perfil.');
             return;
         }
 
-        aluno.nome = novoNome;
-        aluno.email = novoEmail;
-        elementos.nomeAluno.textContent = aluno.nome;
-        fecharModal(elementos.modais.perfil);
-        mostrarNotificacao('Perfil atualizado com sucesso!');
-
-        // Salvar no localStorage
-        localStorage.setItem('perfilNome', novoNome);
-        localStorage.setItem('perfilEmail', novoEmail);
-    }
-
-    // **Upload de Foto de Perfil**
-    function uploadFotoPerfil(e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                elementos.imgPerfil.src = reader.result;
-                mostrarNotificacao('Foto de perfil atualizada!');
-                // Salvar foto no localStorage
-                localStorage.setItem('perfilFoto', reader.result);
-            }
-            reader.readAsDataURL(file);
-        } else {
-            mostrarNotificacao('Por favor, selecione uma imagem válida.');
+        try {
+            const url = "http://localhost:3000/edit_user_name";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ UserId: userId, newName: novoNome })
+            })
+                .then(async (response) => {
+                    if (response.ok) return await response.json()
+                    else console.error('Erro ao buscar usuário.')
+                })
+                .then(data => {
+                    fecharModal(elementos.modais.perfil);
+                    mostrarNotificacao('Perfil atualizado com sucesso!');
+                    location.reload();
+                })
         }
-    }
-
-    // **Função para Salvar Treinos no localStorage**
-    function salvarTreino(exerciciosArr) {
-        createUserExercises(exerciciosArr);
-
-        // localStorage.setItem('meusTreinos', JSON.stringify(aluno.meusTreinos));
+        catch (err) {
+            console.log(err);
+        }
     }
 
     function createUserExercises(exerciciosArr) {
@@ -506,11 +607,7 @@ function LoadPage() {
     }
 
     // **Função para Abrir Modal**
-    function abrirModal(modal) {
-        modal.style.display = 'block';
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden'; // Evita scroll na página principal
-    }
+
 
     // **Função para Fechar Modal**
     function fecharModal(modal) {
@@ -544,9 +641,6 @@ function LoadPage() {
 
     // **Event Listener para Salvar Perfil**
     elementos.salvarPerfil.addEventListener('click', salvarPerfil);
-
-    // **Event Listener para Upload de Foto de Perfil**
-    elementos.uploadFoto.addEventListener('change', uploadFotoPerfil);
 
     // **Event Listener para Abrir Modal de Perfil**
     document.getElementById('perfilBtn').addEventListener('click', () => {
@@ -830,7 +924,7 @@ function LoadPage() {
                 }
             })
             .then(data => {
-                if (data.length > 0) {
+                if (data && data.length > 0) {
                     const treinosArr = [];
 
                     for (let index = 0; index < data.length; index++) {
@@ -849,7 +943,7 @@ function LoadPage() {
                                 peso: data[index].Exercise_Users[k].Weight,
                                 id: data[index].Exercise_Users[k].id
                             };
-                            
+
                             treino.exercicios.push(exercicio);
 
                         }
@@ -859,12 +953,21 @@ function LoadPage() {
 
                     aluno.meusTreinos = treinosArr;
                 } else {
-                    console.error('Erro ao buscar treinos:', data.message);
+                    if (data) {
+                        console.error('Erro ao buscar treinos:', data.message);
+                        aluno.meusTreinos = [];
+                    }
+
+                    else {
+                        console.log("Erro ao buscar treinos")
+                        aluno.meusTreinos = [];
+                    }
                 }
             })
             .catch(error => {
                 console.error('Erro na requisição:', error);
             });
+
 
         if (aluno.meusTreinos.length === 0) {
             elementos.listaTreinosParaEscolher.innerHTML = '<p>Você ainda não montou nenhum treino.</p>';
@@ -931,8 +1034,6 @@ function LoadPage() {
 
     // **Função para Iniciar Treino**
     async function iniciarTreino() {
-        console.log(aluno.treinoAtual.id)
-        
         const userId = sessionStorage.getItem('id');
         const token = sessionStorage.getItem('token');
         try {
@@ -944,10 +1045,10 @@ function LoadPage() {
                     'Content-Type': 'application/json',
                     'authorization': token
                 },
-                body: JSON.stringify({ UserId: userId, UserTrainingId: aluno.treinoAtual.id})
+                body: JSON.stringify({ UserId: userId, UserTrainingId: aluno.treinoAtual.id })
             })
                 .then(async (response) => {
-    
+
                     if (response.ok) {
                         try {
                             return await response.json()
@@ -964,7 +1065,7 @@ function LoadPage() {
                         treinoIniciado = true;
                         elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
                         startTime = new Date();
-                        timerInterval = setInterval(atualizarContador, 1000);
+                        timerInterval = setInterval(() => atualizarContador(startTime), 1000);
                         mostrarNotificacao('Treino iniciado! Bom treino!');
                         abrirModalExercicios();
                     } else {
@@ -976,11 +1077,11 @@ function LoadPage() {
             console.log(err);
         }
 
-       
+
     }
 
     // **Função para Atualizar Contador**
-    function atualizarContador() {
+    function atualizarContador(startTime) {
         if (!elementos.tempoTreino) {
             console.error('Elemento com id "tempoTreino" não encontrado no DOM.');
             return;
@@ -997,10 +1098,9 @@ function LoadPage() {
     function abrirModalExercicios() {
         abrirModal(elementos.modais.exercicios);
         renderExerciciosParaConcluir();
-        elementos.nomeTreinoAtual.textContent = aluno.treinoAtual.nome;
+        elementos.nomeTreinoAtual.textContent = aluno.treinoAtual.Name;
         elementos.barraProgressoExercicios.style.width = '0%';
         elementos.percentualProgressoExercicios.textContent = '0% Concluído';
-        elementos.contadorCountdown.textContent = '00:00:00';
         timerInterval = setInterval(atualizarContadorModal, 1000);
     }
 
@@ -1009,6 +1109,8 @@ function LoadPage() {
         elementos.listaExerciciosTreino.innerHTML = '';
 
         console.log(aluno.treinoAtual)
+
+
 
         aluno.treinoAtual.exercicios.forEach((exercicio, index) => {
             const li = document.createElement('li');
@@ -1090,10 +1192,9 @@ function LoadPage() {
         const segundos = String(Math.floor((elapsedTimeMs % 60000) / 1000)).padStart(2, '0');
         elementos.contadorCountdown.textContent = `${horas}:${minutos}:${segundos}`;
     }
-
     // **Função para Encerrar Treino**
     async function encerrarTreino() {
-        
+
         const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('id');
         try {
@@ -1108,7 +1209,7 @@ function LoadPage() {
                 body: JSON.stringify({ userId: userId })
             })
                 .then(async (response) => {
-    
+
                     if (response.ok) {
                         try {
                             return await response.json()
@@ -1132,8 +1233,8 @@ function LoadPage() {
 
     }
 
-    async function ended_session(trainingId){
-        
+    async function ended_session(trainingId) {
+
         const token = sessionStorage.getItem('token');
         try {
 
@@ -1144,10 +1245,10 @@ function LoadPage() {
                     'Content-Type': 'application/json',
                     'authorization': token
                 },
-                body: JSON.stringify({ training_session_id: trainingId})
+                body: JSON.stringify({ training_session_id: trainingId })
             })
                 .then(async (response) => {
-    
+
                     if (response.ok) {
                         try {
                             return await response.json()
@@ -1168,13 +1269,14 @@ function LoadPage() {
                         const now = new Date();
                         const elapsedTime = (now - startTime) / (1000 * 60 * 60); // em horas
                         aluno.horasTreinadasSemana += elapsedTime;
-                
+
                         // Remover modal de exercícios
                         fecharModal(elementos.modais.exercicios);
-                
+
                         atualizarDados();
                         mostrarNotificacao('Treino concluído! Bom trabalho!');
                         aluno.treinoAtual = null;
+                        location.reload()
                     }
                 })
         }
@@ -1184,11 +1286,7 @@ function LoadPage() {
 
     }
 
-    // **Função para Iniciar o Fluxo de Treino**
-    function iniciarFluxoTreino() {
-        abrirModal(elementos.modais.escolherTreino);
-        carregarTreinosDisponiveis();
-    }
+
 
     // **Função para Salvar Treino Personalizado**
     function salvarTreinoPersonalizadoFinal() {
@@ -1225,17 +1323,6 @@ function LoadPage() {
     });
 
     // **Confirmar Entrada**
-    document.getElementById('confirmarEntrada').addEventListener('click', () => {
-        const entradaID = document.getElementById('entradaID').value.trim();
-        if (entradaID === '') {
-            mostrarNotificacao('Por favor, insira seu ID.');
-            return;
-        }
-        // Record entry time
-        aluno.entradaAcademia = new Date();
-        fecharModal(elementos.modais.entrada);
-        iniciarFluxoTreino();
-    });
 
     // **Confirmar Saída**
     document.getElementById('confirmarSaida').addEventListener('click', () => {
@@ -1279,7 +1366,6 @@ function LoadPage() {
     // **Adicionar Evento de Clique para Abrir o Modal de Montar Treino**
     elementos.btnMontarTreino.addEventListener('click', () => {
         abrirModal(elementos.modais.treino);
-        renderExerciciosDisponiveis();
     });
 
     // **Adicionar Eventos de Clique para os Cards**
@@ -1336,4 +1422,31 @@ function LoadPage() {
         // salvarTreinos();
         salvarHistorico();
     });
+}
+
+async function DisableUser() {
+    const ConfirmedDisable = window.confirm("Alerta! Tem certeza que deseja excluir esta conta?");
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('id');
+
+    if (ConfirmedDisable === true) {
+        try {
+            const url = "http://localhost:3000/disable-user";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ userId: userId })
+            })
+                .then(async (response) => {
+                    if (response.ok) window.location.href = '../Home_Pagina/Home.html';
+                    else console.error('Erro ao buscar usuário.')
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 }
