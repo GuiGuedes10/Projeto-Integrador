@@ -6,25 +6,7 @@ const aluno = {
     metaSemanal: '', // Meta em horas
     horasTreinadasSemana: '',
     historicoSemanal: '', // Segunda a Domingo
-    meusTreinos: [
-        {
-            nome: 'Treino A',
-            exercicios: [
-                { nome: 'Supino Reto', series: 3, repeticoes: 12, peso: 50 },
-                { nome: 'Agachamento Livre', series: 4, repeticoes: 10, peso: 60 },
-                { nome: 'Rosca Direta', series: 3, repeticoes: 15, peso: 20 }
-            ]
-        },
-        {
-            nome: 'Treino B',
-            exercicios: [
-                { nome: 'Leg Press', series: 4, repeticoes: 10, peso: 80 },
-                { nome: 'Desenvolvimento Militar', series: 3, repeticoes: 12, peso: 30 },
-                { nome: 'Flexão de Braço', series: 3, repeticoes: 15, peso: 0 }
-            ]
-        }
-        // ... outros treinos
-    ],
+    meusTreinos: [],
     treinoAtual: null, // Treino em andamento
     entradaAcademia: null // Hora de entrada na academia
 };
@@ -38,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const UserHoursMessage = document.getElementById("UserHours")
 
     if(!token || !userId){
-    window.location.href = '../Home_Pagina/Home.html'; 
+        window.location.href = '../Home_Pagina/Home.html';
     }
 
     try {
@@ -78,12 +60,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             body: JSON.stringify({ Userid: userId })
         })
             .then(async (response) => {
-                if (response.ok) return await response.json()
+                if (response.ok) {
+                    try {
+                        return await response.json()
+                    }
+                    catch (err) {
+                        console.error('Usuário não possui meta definida.')
+                        return null
+                    }
+                }
                 else console.error('Erro ao buscar usuário.')
             })
             .then(data => {
-                aluno.metaSemanal = data.weeklyHours;
-                UserMessage.innerHTML = data.weeklyHours + " horas";
+                if (data != null) {
+                    aluno.metaSemanal = data.weeklyHours;
+                    UserMessage.innerHTML = data.weeklyHours + " horas";
+                } else {
+                    UserMessage.innerHTML = 0 + " horas";
+                }
             })
     }
     catch (err) {
@@ -104,12 +98,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             body: JSON.stringify({ userId: userId })
         })
             .then(async (response) => {
-                if (response.ok) return await response.json()
+
+                if (response.ok) {
+                    try {
+                        return await response.json()
+                    }
+                    catch (err) {
+                        console.error('Usuário não possui treinos realizados.')
+                        return null
+                    }
+                }
                 else console.error('Erro ao buscar usuário.')
             })
             .then((data) => {
-                aluno.horasTreinadasSemana = calculateTotalHours(data);
-                UserHoursMessage.innerHTML = aluno.horasTreinadasSemana + " horas"
+                if (data == null) {
+                    aluno.horasTreinadasSemana = calculateTotalHours(data);
+                    UserHoursMessage.innerHTML = aluno.horasTreinadasSemana + " horas"
+                } else {
+                    UserHoursMessage.innerHTML = 0 + " horas"
+                }
             })
     }
     catch (err) {
@@ -121,13 +128,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 function calculateTotalHours(data) {
-    var totalMilliseconds = 0;
+    var totalMilliseconds = data[0].duration;
 
-    for (let index = 0; index < data.length; index++) {
-        totalMilliseconds += data[index].duration;
-    }
-
-    const h = Math.floor(totalMilliseconds/1000/60/60);
+    const h = Math.floor(totalMilliseconds / 1000 / 60 / 60);
 
     return h
 }
@@ -204,34 +207,32 @@ function LoadPage() {
         classificacaoAluno: document.getElementById('classificacaoAluno')
     };
 
-    function GetDefaultExercise(data){
+    function GetDefaultExercise(data) {
         elementos.exerciciosDisponiveis.innerHTML = '';
-        
-        
-        for(let index = 0; index < data.length; index++){
+
+
+        for (let index = 0; index < data.length; index++) {
             const li = document.createElement('li');
-    
+
             const nomeExercicio = document.createElement('span');
             nomeExercicio.textContent = data[index].Name;
-            
-            console.log(nomeExercicio);
-    
+
             // Botão "Adicionar"
             const btnAdicionar = document.createElement('button');
             btnAdicionar.textContent = 'Adicionar';
             btnAdicionar.classList.add('btn-acao');
             btnAdicionar.setAttribute('aria-label', `Adicionar ${data[index].Name} ao treino`);
             btnAdicionar.addEventListener('click', () => {
-                adicionarExercicioAoTreino(data, data[index].Default_Series,data[index].Default_Repetitions ,data[index].Default_Weight);
+                adicionarExercicioAoTreino(data, nomeExercicio.innerHTML, data[index].Default_Series, data[index].Default_Repetitions, data[index].Default_Weight, data[index].id);
             });
-    
+
             li.appendChild(nomeExercicio);
             li.appendChild(btnAdicionar);
             elementos.exerciciosDisponiveis.appendChild(li);
         }
-        
+
     }
-    
+
     // **Variáveis de Controle**
     let treinoIniciado = false;
     let startTime;
@@ -264,6 +265,30 @@ function LoadPage() {
         atualizarDados();
     }
 
+    // **Função para Inicializar Modal Meta**
+    function inicializarModalMeta() {
+        const inputMeta = document.getElementById('inputMeta');
+        const valorMeta = document.getElementById('valorMeta');
+        inputMeta.value = 1;
+        valorMeta.textContent = '1 horas';
+    }
+
+    // Adicionar evento para inicializar modal meta quando abrir
+    document.getElementById('definirMeta').addEventListener('click', inicializarModalMeta);
+
+    // **Função para Atualizar Valor da Meta**
+    function atualizarValorMeta() {
+        const inputMeta = document.getElementById('inputMeta');
+        const valorMeta = document.getElementById('valorMeta');
+
+        inputMeta.addEventListener('input', () => {
+            valorMeta.textContent = inputMeta.value + ' horas';
+        });
+    }
+
+    // Inicializar atualização do valor da meta
+    atualizarValorMeta();
+
     // **Função para Salvar Meta no localStorage**
     async function salvarMetaNoBackEnd(novaMeta) {
         console.log(novaMeta);
@@ -282,13 +307,23 @@ function LoadPage() {
                 body: JSON.stringify({ Userid: userId, Hours: novaMeta })
             })
                 .then(async (response) => {
-                    if (response.ok) return await response.json()
+                    if (response.ok) {
+                        try {
+                            return await response.json()
+                        }
+                        catch (err) {
+                            console.error('Erro ao salvar meta.')
+                            return null
+                        }
+                    }
                     else console.error('Erro ao buscar usuário.')
                 })
                 .then(data => {
-                    aluno.metaSemanal = data.weeklyHours;
-                    UserMessage.innerHTML = data.weeklyHours + " horas";
-                    location.reload();
+                    if (data != null) {
+                        aluno.metaSemanal = data.weeklyHours;
+                        UserMessage.innerHTML = data.weeklyHours + " horas";
+                        location.reload();
+                    }
                 })
         }
         catch (err) {
@@ -315,16 +350,18 @@ function LoadPage() {
         // Atualizar Horas treinadas na semana
 
         // Atualizar Progresso da Meta
-        const progressoMeta = (aluno.horasTreinadasSemana / aluno.metaSemanal) * 100;
-        elementos.metaProgresso.textContent = `${Math.round(progressoMeta)}%`;
-        elementos.barraProgresso.style.width = `${progressoMeta}%`;
-
+        if (aluno.metaSemanal != 0 || aluno.horasTreinadasSemana != 0) {
+            const progressoMeta = (aluno.horasTreinadasSemana / aluno.metaSemanal) * 100;
+            elementos.metaProgresso.textContent = `${Math.round(progressoMeta)}%`;
+            elementos.barraProgresso.style.width = `${progressoMeta}%`;
+        }
         // Atualizar Classificação
         const classificacao = calcularClassificacao(aluno.horasTreinadasSemana);
         elementos.classificacaoAluno.textContent = classificacao;
+
+
     }
 
-    // **Inicialização do Gráfico de Progresso**
 
     // **Atualizar informações iniciais**
     elementos.nomeAluno.textContent = aluno.nome;
@@ -371,8 +408,96 @@ function LoadPage() {
     }
 
     // **Função para Salvar Treinos no localStorage**
-    function salvarTreinos() {
-        localStorage.setItem('meusTreinos', JSON.stringify(aluno.meusTreinos));
+    function salvarTreino(exerciciosArr) {
+        createUserExercises(exerciciosArr);
+
+        // localStorage.setItem('meusTreinos', JSON.stringify(aluno.meusTreinos));
+    }
+
+    function createUserExercises(exerciciosArr) {
+        const userId = sessionStorage.getItem('id');
+        const token = sessionStorage.getItem('token');
+
+        const exerciciosIds = [];
+
+        for (let index = 0; index < exerciciosArr.exercicios.length; index++) {
+            const newTraining = {
+                Name: exerciciosArr.exercicios[index].nome,
+                Repetitions: exerciciosArr.exercicios[index].repeticoes,
+                Series: exerciciosArr.exercicios[index].series,
+                Weight: exerciciosArr.exercicios[index].peso,
+                Description: exerciciosArr.exercicios[index].nome,
+                ExerciseId: exerciciosArr.exercicios[index].id,
+                UserId: userId
+            }
+
+            fetch('http://localhost:3000/create-user-exercise', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify(newTraining)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                    exerciciosIds.push(data.exercise_user_id);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        createUserTraining(exerciciosIds, exerciciosArr.nome);
+    }
+
+    function createUserTraining(exerciciosIds, nomeTreino) {
+        const userId = sessionStorage.getItem('id');
+        const token = sessionStorage.getItem('token');
+
+        const newTraining = {
+            Name: nomeTreino,
+            UserId: userId
+        }
+
+        fetch('http://localhost:3000/create-user-training', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': token
+            },
+            body: JSON.stringify(newTraining)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data)
+                addExercisesToTraining(exerciciosIds, data.trainingId);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function addExercisesToTraining(exerciciosIds, trainingId) {
+        const token = sessionStorage.getItem('token');
+
+        for (let index = 0; index < exerciciosIds.length; index++) {
+            const newTrainingExercise = {
+                trainingId: trainingId,
+                exerciseUserId: exerciciosIds[index]
+            }
+
+            console.log(newTrainingExercise);
+
+            fetch('http://localhost:3000/add-user-exercise-to-training', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify(newTrainingExercise)
+            })
+                .then(response => response.json())
+                .then(data => console.log('Success:', data))
+                .catch(error => console.error('Error:', error));
+        }
     }
 
     // **Função para Salvar Histórico no localStorage**
@@ -441,13 +566,19 @@ function LoadPage() {
 
     // **Função para Renderizar Exercícios Disponíveis no Modal de Montar Treino**
     // **Função para Adicionar Exercício Ao Treino**
-    function adicionarExercicioAoTreino(exercicio, series, Weight, Repetitions) {
-       
+    function adicionarExercicioAoTreino(exercicio, nomeExercicio, series, repeticoes, peso, idExercicio) {
+        // Verificar se o exercício já foi adicionado
+        const existe = Array.from(elementos.meuTreino.children).some(li => li.querySelector('.exercicio-nome').textContent === exercicio.nome);
+        if (existe) {
+            mostrarNotificacao('Exercício já adicionado ao treino.');
+            return;
+        }
+
         const li = document.createElement('li');
 
         const nomeDiv = document.createElement('div');
         nomeDiv.classList.add('exercicio-nome');
-        nomeDiv.textContent = exercicio.nome;
+        nomeDiv.textContent = nomeExercicio;
 
         const detalhesDiv = document.createElement('div');
         detalhesDiv.classList.add('exercicio-detalhes');
@@ -457,11 +588,12 @@ function LoadPage() {
                 <input type="number" min="1" value="${series}" aria-label="Séries">
             </label>
             <label>Repetições:
-                <input type="number" min="1" value="${Weight}" aria-label="Peso">
+                <input type="number" min="1" value="${repeticoes}" aria-label="Repetições">
             </label>
             <label>Peso (kg):
-                <input type="number" min="0" value="${Repetitions}" aria-label="Repetições">
+                <input type="number" min="0" value="${peso}" aria-label="Peso">
             </label>
+            <input type="hidden" value="${idExercicio}">
         `;
 
         const acoesDiv = document.createElement('div');
@@ -521,6 +653,7 @@ function LoadPage() {
             const series = parseInt(inputs[0].value);
             const repeticoes = parseInt(inputs[1].value);
             const peso = parseFloat(inputs[2].value);
+            const idExercicio = parseInt(inputs[3].value);
 
             // Validação simples
             if (isNaN(series) || isNaN(repeticoes) || isNaN(peso)) {
@@ -532,7 +665,8 @@ function LoadPage() {
                 nome: nome,
                 series: series,
                 repeticoes: repeticoes,
-                peso: peso
+                peso: peso,
+                id: idExercicio
             });
         });
 
@@ -560,63 +694,63 @@ function LoadPage() {
         elementos.meuTreino.innerHTML = '';
 
         // Salvar dados atualizados
-        salvarTreinos();
-        carregarMeusTreinos(); // Atualiza a lista de treinos salvos
+        salvarTreino(novoTreino);
+        // carregarMeusTreinos(); // Atualiza a lista de treinos salvos
     }
 
     // **Função para Carregar Meus Treinos no Modal**
-    function carregarMeusTreinos() {
-        elementos.listaMeusTreinos.innerHTML = '';
+    // function carregarMeusTreinos() {
+    //     elementos.listaMeusTreinos.innerHTML = '';
 
-        if (aluno.meusTreinos.length === 0) {
-            elementos.listaMeusTreinos.innerHTML = '<p>Você ainda não montou nenhum treino.</p>';
-            return;
-        }
+    //     if (aluno.meusTreinos.length === 0) {
+    //         elementos.listaMeusTreinos.innerHTML = '<p>Você ainda não montou nenhum treino.</p>';
+    //         return;
+    //     }
 
-        aluno.meusTreinos.forEach((treino, index) => {
-            const treinoDiv = document.createElement('div');
-            treinoDiv.classList.add('treino-salvo');
+    //     aluno.meusTreinos.forEach((treino, index) => {
+    //         const treinoDiv = document.createElement('div');
+    //         treinoDiv.classList.add('treino-salvo');
 
-            const tituloTreino = document.createElement('h3');
-            tituloTreino.textContent = treino.nome;
+    //         const tituloTreino = document.createElement('h3');
+    //         tituloTreino.textContent = treino.nome;
 
-            const listaExercicios = document.createElement('ul');
+    //         const listaExercicios = document.createElement('ul');
 
-            treino.exercicios.forEach(exercicio => {
-                const li = document.createElement('li');
-                li.textContent = `${exercicio.nome} - ${exercicio.series} séries x ${exercicio.repeticoes} reps (${exercicio.peso} kg)`;
-                listaExercicios.appendChild(li);
-            });
+    //         treino.exercicios.forEach(exercicio => {
+    //             const li = document.createElement('li');
+    //             li.textContent = `${exercicio.nome} - ${exercicio.series} séries x ${exercicio.repeticoes} reps (${exercicio.peso} kg)`;
+    //             listaExercicios.appendChild(li);
+    //         });
 
-            const acoesDiv = document.createElement('div');
-            acoesDiv.classList.add('acoes-treino');
+    //         const acoesDiv = document.createElement('div');
+    //         acoesDiv.classList.add('acoes-treino');
 
-            const btnEditar = document.createElement('button');
-            btnEditar.textContent = 'Editar';
-            btnEditar.classList.add('btn-acao');
-            btnEditar.setAttribute('aria-label', `Editar ${treino.nome}`);
-            btnEditar.addEventListener('click', () => {
-                editarTreino(index);
-            });
+    //         const btnEditar = document.createElement('button');
+    //         btnEditar.textContent = 'Editar';
+    //         btnEditar.classList.add('btn-acao');
+    //         btnEditar.setAttribute('aria-label', `Editar ${treino.nome}`);
+    //         btnEditar.addEventListener('click', () => {
+    //             editarTreino(index);
+    //         });
 
-            const btnExcluir = document.createElement('button');
-            btnExcluir.textContent = 'Excluir';
-            btnExcluir.classList.add('btn-acao');
-            btnExcluir.setAttribute('aria-label', `Excluir ${treino.nome}`);
-            btnExcluir.addEventListener('click', () => {
-                excluirTreino(index);
-            });
+    //         const btnExcluir = document.createElement('button');
+    //         btnExcluir.textContent = 'Excluir';
+    //         btnExcluir.classList.add('btn-acao');
+    //         btnExcluir.setAttribute('aria-label', `Excluir ${treino.nome}`);
+    //         btnExcluir.addEventListener('click', () => {
+    //             excluirTreino(index);
+    //         });
 
-            acoesDiv.appendChild(btnEditar);
-            acoesDiv.appendChild(btnExcluir);
+    //         acoesDiv.appendChild(btnEditar);
+    //         acoesDiv.appendChild(btnExcluir);
 
-            treinoDiv.appendChild(tituloTreino);
-            treinoDiv.appendChild(listaExercicios);
-            treinoDiv.appendChild(acoesDiv);
+    //         treinoDiv.appendChild(tituloTreino);
+    //         treinoDiv.appendChild(listaExercicios);
+    //         treinoDiv.appendChild(acoesDiv);
 
-            elementos.listaMeusTreinos.appendChild(treinoDiv);
-        });
-    }
+    //         elementos.listaMeusTreinos.appendChild(treinoDiv);
+    //     });
+    // }
 
     // **Função para Editar Treino**
     function editarTreino(index) {
@@ -633,8 +767,8 @@ function LoadPage() {
 
         // Remover o treino da lista antes de editar para evitar duplicação
         aluno.meusTreinos.splice(index, 1);
-        salvarTreinos();
-        carregarMeusTreinos();
+        // salvarTreinos();
+        // carregarMeusTreinos();
 
         abrirModal(elementos.modais.treino);
     }
@@ -643,9 +777,9 @@ function LoadPage() {
     function excluirTreino(index) {
         if (confirm('Tem certeza que deseja excluir este treino?')) {
             aluno.meusTreinos.splice(index, 1);
-            carregarMeusTreinos();
+            // carregarMeusTreinos();
             mostrarNotificacao('Treino excluído com sucesso.');
-            salvarTreinos();
+            // salvarTreinos();
         }
     }
     // **Função para Carregar Dicas de Treino**
@@ -669,15 +803,75 @@ function LoadPage() {
     }
 
     // **Função para Carregar Treinos Disponíveis no Modal de Escolha**
-    function carregarTreinosDisponiveis() {
+    async function carregarTreinosDisponiveis() {
         elementos.listaTreinosParaEscolher.innerHTML = '';
+
+
+        const userId = sessionStorage.getItem('id');
+        const token = sessionStorage.getItem('token');
+
+        // Buscar treinos do usuário pelo ID
+        await fetch('http://localhost:3000/get-user-training-by-user-id', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${token}`
+            },
+            body: JSON.stringify({
+                userId: userId
+            })
+        })
+            .then(async response => {
+                if (response.ok) {
+                    return await response.json()
+                } else {
+                    console.error('Erro ao buscar treinos:', response.statusText);
+                    return null;
+                }
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    const treinosArr = [];
+
+                    for (let index = 0; index < data.length; index++) {
+                        let treino = {
+                            id: data[index].id,
+                            nome: data[index].Name,
+                            exercicios: []
+                        }
+
+                        for (let k = 0; k < data[index].Exercise_Users.length; k++) {
+
+                            const exercicio = {
+                                nome: data[index].Exercise_Users[k].Name,
+                                series: data[index].Exercise_Users[k].Series,
+                                repeticoes: data[index].Exercise_Users[k].Repetitions,
+                                peso: data[index].Exercise_Users[k].Weight,
+                                id: data[index].Exercise_Users[k].id
+                            };
+                            
+                            treino.exercicios.push(exercicio);
+
+                        }
+
+                        treinosArr.push(treino);
+                    }
+
+                    aluno.meusTreinos = treinosArr;
+                } else {
+                    console.error('Erro ao buscar treinos:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro na requisição:', error);
+            });
 
         if (aluno.meusTreinos.length === 0) {
             elementos.listaTreinosParaEscolher.innerHTML = '<p>Você ainda não montou nenhum treino.</p>';
             return;
         }
 
-        aluno.meusTreinos.forEach((treino, index) => {
+        aluno.meusTreinos.forEach((treino) => {
             const treinoDiv = document.createElement('div');
             treinoDiv.classList.add('treino-salvo');
 
@@ -736,13 +930,53 @@ function LoadPage() {
     }
 
     // **Função para Iniciar Treino**
-    function iniciarTreino() {
-        treinoIniciado = true;
-        elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
-        startTime = new Date();
-        timerInterval = setInterval(atualizarContador, 1000);
-        mostrarNotificacao('Treino iniciado! Bom treino!');
-        abrirModalExercicios();
+    async function iniciarTreino() {
+        console.log(aluno.treinoAtual.id)
+        
+        const userId = sessionStorage.getItem('id');
+        const token = sessionStorage.getItem('token');
+        try {
+
+            const url = "http://localhost:3000/create-training-session";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ UserId: userId, UserTrainingId: aluno.treinoAtual.id})
+            })
+                .then(async (response) => {
+    
+                    if (response.ok) {
+                        try {
+                            return await response.json()
+                        }
+                        catch (err) {
+                            console.error('Usuário não possui treinos realizados.')
+                            return null
+                        }
+                    }
+                    else console.error('Erro ao buscar usuário.')
+                })
+                .then((data) => {
+                    if (data != null) {
+                        treinoIniciado = true;
+                        elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
+                        startTime = new Date();
+                        timerInterval = setInterval(atualizarContador, 1000);
+                        mostrarNotificacao('Treino iniciado! Bom treino!');
+                        abrirModalExercicios();
+                    } else {
+                        UserHoursMessage.innerHTML = 0 + " horas"
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+       
     }
 
     // **Função para Atualizar Contador**
@@ -773,6 +1007,8 @@ function LoadPage() {
     // **Função para Renderizar Exercícios no Modal de Exercícios**
     function renderExerciciosParaConcluir() {
         elementos.listaExerciciosTreino.innerHTML = '';
+
+        console.log(aluno.treinoAtual)
 
         aluno.treinoAtual.exercicios.forEach((exercicio, index) => {
             const li = document.createElement('li');
@@ -856,30 +1092,96 @@ function LoadPage() {
     }
 
     // **Função para Encerrar Treino**
-    function encerrarTreino() {
-        treinoIniciado = false;
-        elementos.botaoIniciarTreino.textContent = 'Iniciar Treino';
-        clearInterval(timerInterval);
-        clearInterval(countdownInterval);
-        const now = new Date();
-        const elapsedTime = (now - startTime) / (1000 * 60 * 60); // em horas
-        aluno.horasTreinadasSemana += elapsedTime;
+    async function encerrarTreino() {
+        
+        const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('id');
+        try {
 
-        // Atualizar histórico
-        const diaSemanaHoje = new Date().getDay(); // 0 (Dom) a 6 (Sáb)
-        const indexDia = diaSemanaHoje === 0 ? 6 : diaSemanaHoje - 1;
-        aluno.historicoSemanal[indexDia] += elapsedTime;
+            const url = "http://localhost:3000/user_running_session";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ userId: userId })
+            })
+                .then(async (response) => {
+    
+                    if (response.ok) {
+                        try {
+                            return await response.json()
+                        }
+                        catch (err) {
+                            console.error('Usuário não possui treinos realizados.')
+                            return null
+                        }
+                    }
+                    else console.error('Erro.')
+                })
+                .then((data) => {
+                    if (data != null) {
+                        ended_session(data.id)
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
 
-        // Remover modal de exercícios
-        fecharModal(elementos.modais.exercicios);
+    }
 
-        atualizarDados();
-        mostrarNotificacao('Treino concluído! Bom trabalho!');
-        aluno.treinoAtual = null;
+    async function ended_session(trainingId){
+        
+        const token = sessionStorage.getItem('token');
+        try {
 
-        // Salvar dados atualizados
-        salvarTreinos();
-        salvarHistorico();
+            const url = "http://localhost:3000/end-user-training-session";
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify({ training_session_id: trainingId})
+            })
+                .then(async (response) => {
+    
+                    if (response.ok) {
+                        try {
+                            return await response.json()
+                        }
+                        catch (err) {
+                            console.error('Usuário não possui treinos realizados.')
+                            return null
+                        }
+                    }
+                    else console.error('Erro.')
+                })
+                .then((data) => {
+                    if (data != null) {
+                        treinoIniciado = false;
+                        elementos.botaoIniciarTreino.textContent = 'Iniciar Treino';
+                        clearInterval(timerInterval);
+                        clearInterval(countdownInterval);
+                        const now = new Date();
+                        const elapsedTime = (now - startTime) / (1000 * 60 * 60); // em horas
+                        aluno.horasTreinadasSemana += elapsedTime;
+                
+                        // Remover modal de exercícios
+                        fecharModal(elementos.modais.exercicios);
+                
+                        atualizarDados();
+                        mostrarNotificacao('Treino concluído! Bom trabalho!');
+                        aluno.treinoAtual = null;
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+
     }
 
     // **Função para Iniciar o Fluxo de Treino**
@@ -897,9 +1199,9 @@ function LoadPage() {
     elementos.salvarTreinoBtn.addEventListener('click', salvarTreinoPersonalizadoFinal);
 
     // **Função para Carregar Meus Treinos no Modal**
-    function carregarMeusTreinosFinal() {
-        carregarMeusTreinos();
-    }
+    // function carregarMeusTreinosFinal() {
+    //     carregarMeusTreinos();
+    // }
 
     // **Função para Encerrar Treino Finalizado**
     function encerrarTreinoFinalizado() {
@@ -958,7 +1260,7 @@ function LoadPage() {
         mostrarNotificacao('Saída registrada com sucesso!');
 
         // Salvar dados atualizados
-        salvarTreinos();
+        // salvarTreinos();
         salvarHistorico();
     });
 
@@ -983,10 +1285,10 @@ function LoadPage() {
     // **Adicionar Eventos de Clique para os Cards**
     document.getElementById('card-criar-treino').addEventListener('click', () => {
         const token = sessionStorage.getItem('token');
-        
+
         abrirModal(elementos.modais.treino);
         Get_Exercise(token);
-        async function Get_Exercise(token){
+        async function Get_Exercise(token) {
             try {
                 const url = "http://localhost:3000/get_all_default_exercise";
                 await fetch(url, {
@@ -1008,7 +1310,7 @@ function LoadPage() {
             catch (err) {
                 console.log(err);
             }
-        
+
         }
     });
 
@@ -1031,7 +1333,7 @@ function LoadPage() {
 
     // **Finalização e Salvamento ao Sair ou Recarregar**
     window.addEventListener('beforeunload', () => {
-        salvarTreinos();
+        // salvarTreinos();
         salvarHistorico();
     });
 }

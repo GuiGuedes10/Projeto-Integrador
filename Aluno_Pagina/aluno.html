@@ -50,7 +50,7 @@
                     <span class="material-icons-outlined">flag</span>
                 </div>
                 <h2>Meta Semanal</h2>
-                <p id="metaProgresso">60%</p>
+                <p id="metaProgresso">0%</p>
                 <div class="progress-bar">
                     <div class="progress" id="barraProgresso"></div>
                 </div>
@@ -92,6 +92,8 @@
                 <h2>Criar Treino</h2>
                 <p>Desenvolva treinos personalizados que se adequem às suas necessidades.</p>
             </div>
+
+
             <div class="card" id="card-dicas-treino">
                 <div class="card-icon">
                     <span class="material-icons-outlined">lightbulb</span>
@@ -100,6 +102,9 @@
                 <p>Receba sugestões para otimizar seus resultados e melhorar seu desempenho.</p>
             </div>
         </section>
+
+        <!-- Gráfico de Progresso -->
+
 
         <!-- Notificações -->
         <div id="notificacao" class="notificacao"></div>
@@ -114,10 +119,10 @@
             <h2>Definir Meta Semanal</h2>
             <div class="slider-container">
                 <!-- Slider personalizado -->
-                <input type="range" id="inputMeta" min="1" max="30" value="1" step="1">
+                <input type="range" id="inputMeta" min="1" max="10" value="UserGoal" step="1">
                 <div class="slider-value">
-                    Sua meta: <span id="valorMeta"></span>
-                    <div class="message" id="UserGoal"></div>
+                    Nova meta: <span id="valorMeta"></span><br>
+                    Meta atual: <span class="message" id="UserGoal"></span>
                 </div>
             </div>
             <button id="salvarMeta" class="btn-acao"><i class="fas fa-save"></i> Salvar</button>
@@ -182,17 +187,6 @@
             <h2>Meus Treinos</h2>
             <div id="listaMeusTreinos">
                 <!-- Lista de treinos montados será preenchida pelo JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Histórico de Treinos -->
-    <div id="modalHistoricoTreinos" class="modal">
-        <div class="modal-content animate__animated animate__fadeInDown">
-            <span id="fecharModalHistoricoTreinos" class="close">&times;</span>
-            <h2>Histórico de Treinos</h2>
-            <div id="listaHistoricoTreinos">
-                <!-- Lista de históricos de treinos será preenchida pelo JavaScript -->
             </div>
         </div>
     </div>
