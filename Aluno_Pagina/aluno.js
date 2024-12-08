@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else console.error('Erro ao buscar usuário.')
             })
             .then((data) => {
-                if (data == null) {
+                if (data != null) {
                     aluno.horasTreinadasSemana = calculateTotalHours(data);
                     UserHoursMessage.innerHTML = aluno.horasTreinadasSemana + " horas"
                 } else {
@@ -212,6 +212,7 @@ function LoadPage() {
             const token = sessionStorage.getItem('token');
             const userId = sessionStorage.getItem('id');
 
+
             const url = "http://localhost:3000/verify_user_running_session";
             await fetch(url, {
                 method: "POST",
@@ -219,7 +220,7 @@ function LoadPage() {
                     'Content-Type': 'application/json',
                     'authorization': token
                 },
-                body: JSON.stringify({ userid: userId })
+                body: JSON.stringify({ UserId: userId })
             })
                 .then(async (response) => {
                     if (response.ok) return await response.json()
@@ -254,7 +255,6 @@ function LoadPage() {
 
                     treinoIniciado = true;
                     elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
-                    mostrarNotificacao('Treino iniciado! Bom treino!');
                     abrirModalExercicios();
                 })
         }
@@ -516,6 +516,8 @@ function LoadPage() {
     }
 
     function createUserExercises(exerciciosArr) {
+        console.log("ok, createUserExercises")
+        
         const userId = sessionStorage.getItem('id');
         const token = sessionStorage.getItem('token');
 
@@ -552,6 +554,8 @@ function LoadPage() {
     }
 
     function createUserTraining(exerciciosIds, nomeTreino) {
+        console.log("ok, createUserTraining")
+        
         const userId = sessionStorage.getItem('id');
         const token = sessionStorage.getItem('token');
 
@@ -786,9 +790,9 @@ function LoadPage() {
         fecharModal(elementos.modais.treino);
         elementos.nomeTreino.value = '';
         elementos.meuTreino.innerHTML = '';
+        createUserExercises(novoTreino);
 
         // Salvar dados atualizados
-        salvarTreino(novoTreino);
         // carregarMeusTreinos(); // Atualiza a lista de treinos salvos
     }
 
@@ -904,6 +908,8 @@ function LoadPage() {
         const userId = sessionStorage.getItem('id');
         const token = sessionStorage.getItem('token');
 
+        console.log(userId);
+
         // Buscar treinos do usuário pelo ID
         await fetch('http://localhost:3000/get-user-training-by-user-id', {
             method: 'POST',
@@ -911,9 +917,7 @@ function LoadPage() {
                 'Content-Type': 'application/json',
                 'authorization': `${token}`
             },
-            body: JSON.stringify({
-                userId: userId
-            })
+            body: JSON.stringify({ userId: userId })
         })
             .then(async response => {
                 if (response.ok) {

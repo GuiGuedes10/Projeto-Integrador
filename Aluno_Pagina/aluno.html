@@ -22,7 +22,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#" id="perfilBtn"><span class="material-icons-outlined">person</span> Perfil</a></li>
-            <li><a href="../Gerente/gerenteteste.html" id="GerentePage"><span class="material-icons-outlined" id="GerentePageIcon">settings</span> Gerente</a></li>
+            <li><a href="../Gerente/gerente.html" id="GerentePage"><span class="material-icons-outlined" id="GerentePageIcon">settings</span> Gerente</a></li>
             <li><a href="#" id="sair"><span class="material-icons-outlined">logout</span> Sair</a></li>
         </ul>
         <div class="menu-toggle"><span class="material-icons-outlined">menu</span></div>
@@ -151,7 +151,7 @@
             <h2 id="modalTreinoTitulo">Montar Treino</h2>
             <div class="nome-treino-container">
                 <label for="nomeTreino">Nome do Treino:</label>
-                <input type="text" id="nomeTreino" placeholder="Ex: Treino A, Treino Hipertrofia" aria-required="true">
+                <input type="text" id="nomeTreino" placeholder="Ex: Treino A, Treino Hipertrofia" aria-required="true" maxlength="35">
             </div>
             <div class="treino-container">
                 <div class="lista-exercicios">
@@ -167,7 +167,7 @@
                     </ul>
                 </div>
             </div>
-            <button id="salvarTreino" class="btn-acao"><i class="fas fa-save"></i> Salvar Treino</button>
+            <button id="salvarTreino" ><i class="fas fa-save"></i> Salvar Treino</button>
         </div>
     </div>
 
@@ -243,10 +243,6 @@
             <ul id="listaExerciciosTreino">
                 <!-- Exercícios para concluir serão preenchidos pelo JavaScript -->
             </ul>
-            <!-- Contador de Tempo no Modal de Exercícios -->
-            <div id="contadorCountdown" class="contador">
-                00:00:00
-            </div>
         </div>
     </div>
 

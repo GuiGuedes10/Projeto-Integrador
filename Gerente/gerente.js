@@ -126,7 +126,7 @@ async function ObterHorasAluno(userId) {
 
     try {
 
-        const url = "http://localhost:3000/get_Week_Of_User";
+        const url = "http://localhost:3000/get_everthing_hours";
         const data = await fetch(url, {
             method: "POST",
             headers: {
@@ -160,14 +160,16 @@ async function ObterHorasAluno(userId) {
 }
 
 function calculateTotalHours(data) {
-    if (data.length > 0) {
-
-        var totalMilliseconds = data[0].duration;
+    if (data && typeof data === "object") {
+        const totalMilliseconds = data.durationToltal;
         const h = Math.floor(totalMilliseconds / 1000 / 60 / 60);
 
-        return h
-    }else{
-        return 0;
+        const weekMilliseconds = data.weekDuration;
+        const v = Math.floor(weekMilliseconds / 1000 / 60 / 60);
+
+        return { h, v };
+    } else {
+        return { h: 0, v: 0 }; 
     }
 }
 
@@ -187,21 +189,24 @@ async function gerarRelatorio() {
         const alunos = await obterDados();
 
         for (let index = 0; index < alunos.length; index++) {
-            const totalHoras = await ObterHorasAluno(alunos[index].id);
-            alunos[index].horas = totalHoras;
+            const {h, v} = await ObterHorasAluno(alunos[index].id);
+            console.log(h, v);
+            alunos[index].horasSemanais = v;
+            alunos[index].horasTotais = h;
         }
 
         // Adiciona os dados na tabela
         alunos.forEach(aluno => {
 
-            const classificacao = calcularClassificacao(aluno.horas);
-            if(aluno.Ativo===true){aluno.Ativo="verdadeiro"}
-            else{aluno.Ativo="falso"}
+            const classificacao = calcularClassificacao(aluno.horasSemanais);
+            if(aluno.Ativo===true){aluno.Ativo="Efetivado"}
+            else{aluno.Ativo="Desativado"}
             const linha = `
             <tr>
                 <th>${aluno.Name}</th>
                 <th>${classificacao}</th>
-                <th>${aluno.horas}</th>
+                <th>${aluno.horasSemanais}</th>
+                <th>${aluno.horasTotais}</th>
                 <th>${aluno.Ativo}</th>
             </tr>
         `;
