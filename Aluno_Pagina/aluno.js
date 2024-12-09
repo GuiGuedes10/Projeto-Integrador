@@ -254,8 +254,8 @@ function LoadPage() {
                     timerInterval = setInterval(() => atualizarContador(startTimeDate), 1000);
 
                     treinoIniciado = true;
-                    elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
                     abrirModalExercicios();
+                    alterarBotao()
                 })
         }
         catch (err) {
@@ -791,94 +791,6 @@ function LoadPage() {
         elementos.nomeTreino.value = '';
         elementos.meuTreino.innerHTML = '';
         createUserExercises(novoTreino);
-
-        // Salvar dados atualizados
-        // carregarMeusTreinos(); // Atualiza a lista de treinos salvos
-    }
-
-    // **Função para Carregar Meus Treinos no Modal**
-    // function carregarMeusTreinos() {
-    //     elementos.listaMeusTreinos.innerHTML = '';
-
-    //     if (aluno.meusTreinos.length === 0) {
-    //         elementos.listaMeusTreinos.innerHTML = '<p>Você ainda não montou nenhum treino.</p>';
-    //         return;
-    //     }
-
-    //     aluno.meusTreinos.forEach((treino, index) => {
-    //         const treinoDiv = document.createElement('div');
-    //         treinoDiv.classList.add('treino-salvo');
-
-    //         const tituloTreino = document.createElement('h3');
-    //         tituloTreino.textContent = treino.nome;
-
-    //         const listaExercicios = document.createElement('ul');
-
-    //         treino.exercicios.forEach(exercicio => {
-    //             const li = document.createElement('li');
-    //             li.textContent = `${exercicio.nome} - ${exercicio.series} séries x ${exercicio.repeticoes} reps (${exercicio.peso} kg)`;
-    //             listaExercicios.appendChild(li);
-    //         });
-
-    //         const acoesDiv = document.createElement('div');
-    //         acoesDiv.classList.add('acoes-treino');
-
-    //         const btnEditar = document.createElement('button');
-    //         btnEditar.textContent = 'Editar';
-    //         btnEditar.classList.add('btn-acao');
-    //         btnEditar.setAttribute('aria-label', `Editar ${treino.nome}`);
-    //         btnEditar.addEventListener('click', () => {
-    //             editarTreino(index);
-    //         });
-
-    //         const btnExcluir = document.createElement('button');
-    //         btnExcluir.textContent = 'Excluir';
-    //         btnExcluir.classList.add('btn-acao');
-    //         btnExcluir.setAttribute('aria-label', `Excluir ${treino.nome}`);
-    //         btnExcluir.addEventListener('click', () => {
-    //             excluirTreino(index);
-    //         });
-
-    //         acoesDiv.appendChild(btnEditar);
-    //         acoesDiv.appendChild(btnExcluir);
-
-    //         treinoDiv.appendChild(tituloTreino);
-    //         treinoDiv.appendChild(listaExercicios);
-    //         treinoDiv.appendChild(acoesDiv);
-
-    //         elementos.listaMeusTreinos.appendChild(treinoDiv);
-    //     });
-    // }
-
-    // **Função para Editar Treino**
-    function editarTreino(index) {
-        const treinoParaEditar = aluno.meusTreinos[index];
-        elementos.nomeTreino.value = treinoParaEditar.nome;
-
-        // Limpar a lista de treino atual
-        elementos.meuTreino.innerHTML = '';
-
-        // Adicionar os exercícios do treino selecionado
-        treinoParaEditar.exercicios.forEach(exercicio => {
-            adicionarExercicioAoTreino(exercicio);
-        });
-
-        // Remover o treino da lista antes de editar para evitar duplicação
-        aluno.meusTreinos.splice(index, 1);
-        // salvarTreinos();
-        // carregarMeusTreinos();
-
-        abrirModal(elementos.modais.treino);
-    }
-
-    // **Função para Excluir Treino**
-    function excluirTreino(index) {
-        if (confirm('Tem certeza que deseja excluir este treino?')) {
-            aluno.meusTreinos.splice(index, 1);
-            // carregarMeusTreinos();
-            mostrarNotificacao('Treino excluído com sucesso.');
-            // salvarTreinos();
-        }
     }
     // **Função para Carregar Dicas de Treino**
     function carregarDicasTreino() {
@@ -1067,11 +979,11 @@ function LoadPage() {
                 .then((data) => {
                     if (data != null) {
                         treinoIniciado = true;
-                        elementos.botaoIniciarTreino.textContent = 'Encerrar Treino';
                         startTime = new Date();
                         timerInterval = setInterval(() => atualizarContador(startTime), 1000);
                         mostrarNotificacao('Treino iniciado! Bom treino!');
                         abrirModalExercicios();
+                        alterarBotao();
                     } else {
                         UserHoursMessage.innerHTML = 0 + " horas"
                     }
@@ -1080,8 +992,17 @@ function LoadPage() {
         catch (err) {
             console.log(err);
         }
+    }
 
+    function alterarBotao(){
+        const StartBotton = document.getElementById('botaoIniciarTreino');
 
+        const NovoBotao = document.createElement('button');
+        NovoBotao.textContent = 'Encerrar Treino';
+        NovoBotao.classList.add('btn-acao');
+        
+        StartBotton.replaceWith(NovoBotao);
+        NovoBotao.onclick = () => abrirModalExercicios();
     }
 
     // **Função para Atualizar Contador**
