@@ -35,7 +35,7 @@
             <p>Transforme sua rotina com treinos personalizados e suporte contínuo.</p>
             <div class="buttons-container">
                 <button class="btn-acao" id="botaoIniciarTreino"><span class="material-icons-outlined">play_circle</span> Iniciar Treino</button>
-                <button class="btn-acao" id="btnMontarTreino"><span class="material-icons-outlined">fitness_center</span> Montar Treino</button>
+                <button class="btn-acao" onclick="ChamarModalCriarTreino()" id="btnMontarTreino"><span class="material-icons-outlined">fitness_center</span> Montar Treino</button>
             </div>
         </div>
     </header>
@@ -119,7 +119,7 @@
             <h2>Definir Meta Semanal</h2>
             <div class="slider-container">
                 <!-- Slider personalizado -->
-                <input type="range" id="inputMeta" min="1" max="10" value="UserGoal" step="1">
+                <input type="range" id="inputMeta" min="1" max="40" value="UserGoal" step="1">
                 <div class="slider-value">
                     Nova meta: <span id="valorMeta"></span><br>
                     Meta atual: <span class="message" id="UserGoal"></span>

@@ -30,7 +30,7 @@
                 <div class="formulario-cadastro">
                     <form id="cadastroForm2">
                         <div class="input-box-cadastro">
-                            <input type="text" id="nome" placeholder=" " required>
+                            <input type="text" id="nome" placeholder=" " required maxlength="20">
                             <label for="nome">Como você se chama?</label>
                         </div>
                         <div class="input-box-cadastro">
@@ -54,7 +54,7 @@
                             <label for="confirm-password">Repita sua senha!</label>
                         </div>
                         <div class="message" id="UserMessage"></div>
-                        <button class="btn btn-second" type="button" onclick="Cadastro_User()"> Quero fazer parte!</button>
+                        <button class="btn btn-second" type="button" onclick="Cadastro_User()" id="BotaoCadastro"> Quero fazer parte!</button>
                     </form>
                 </div>
             </div>

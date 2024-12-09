@@ -1,4 +1,18 @@
+function TrocarBotao(){
+    const BotaoAtual = document.getElementById("BotaoCadastro");
+
+    const NovoBotao = document.createElement('button')
+
+    NovoBotao.textContent = 'Cadastrando';
+    NovoBotao.classList.add('btn', 'btn-second');
+    NovoBotao.disabled = true;
+    BotaoAtual.replaceWith(NovoBotao);
+
+}
+
 async function Cadastro_User() {
+    TrocarBotao();
+    
     const errorMessage = document.getElementById('UserMessage');
     const usuario = {
         nome: document.getElementById('nome').value,

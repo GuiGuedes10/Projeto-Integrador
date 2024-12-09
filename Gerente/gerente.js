@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../Home_Pagina/Home.html';
     }
 
+    Validate(userId, token);
+
     elementos = {
         // **Modal de Montar Treino**
         btnMontarTreino: document.getElementById('btnMontarTreino'),
@@ -70,6 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })
 
+async function Validate(id, token){
+    try {
+
+        const url = "http://localhost:3000/Validate_Maneger";
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': token
+            },
+            body: JSON.stringify({UserId:id})
+        })
+            .then(async (response) => {
+                if (response.ok) {
+                    console.log("ok")
+                }
+                if(response.status === 401 || response.status === 403) {
+                    window.location.href = '../Home_Pagina/Home.html';
+                    window.alert("Acesso Negado!")
+                }
+                else console.error('Erro ao buscar usuario')
+            })
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
 function calcularClassificacao(horas) {
     if (horas <= 5) {
         return 'Iniciante';
@@ -108,6 +138,10 @@ async function obterDados() {
                         return null
                     }
                 }
+                if(response.status === 403){
+                    window.location.href = '../Home_Pagina/Home.html';
+                    window.alert("Acesso não aurizado!");
+                }
                 else console.error('Erro ao buscar usuário.')
             })
             .then((data) => {
@@ -145,6 +179,9 @@ async function ObterHorasAluno(userId) {
                         console.error('Usuário não possui treinos realizados.')
                         return null
                     }
+                }
+                else if (response.status === 403){
+                    window.location.href = '../Home_Pagina/Home.html'
                 }
                 else console.error('Erro ao buscar usuário.')
             })

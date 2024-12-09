@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else console.error('Erro ao buscar usuário.')
             })
             .then((data) => {
+                
                 if (data != null) {
                     aluno.horasTreinadasSemana = calculateTotalHours(data);
                     UserHoursMessage.innerHTML = aluno.horasTreinadasSemana + " horas"
@@ -131,7 +132,6 @@ function calculateTotalHours(data) {
     var totalMilliseconds = data[0].duration;
 
     const h = Math.floor(totalMilliseconds / 1000 / 60 / 60);
-
     return h
 }
 
@@ -1374,6 +1374,7 @@ function LoadPage() {
 
     // **Adicionar Eventos de Clique para os Cards**
     document.getElementById('card-criar-treino').addEventListener('click', () => {
+        
         const token = sessionStorage.getItem('token');
 
         abrirModal(elementos.modais.treino);
@@ -1452,5 +1453,14 @@ async function DisableUser() {
         catch (err) {
             console.log(err);
         }
+    }
+}
+
+function ChamarModalCriarTreino() {
+    const card = document.getElementById('card-criar-treino');
+    if (card) {
+        card.click();
+    } else {
+        console.error('Elemento com ID "card-criar-treino" não encontrado.');
     }
 }
