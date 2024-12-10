@@ -11,7 +11,6 @@ function TrocarBotao(){
 }
 
 async function Cadastro_User() {
-    TrocarBotao();
     
     const errorMessage = document.getElementById('UserMessage');
     const usuario = {
@@ -26,6 +25,8 @@ async function Cadastro_User() {
     if (!validarCampos(usuario, errorMessage)) {
         return;
     }
+    TrocarBotao();
+
 
     const payload = {
         Name: usuario.nome,

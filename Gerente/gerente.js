@@ -524,6 +524,7 @@ async function salvarexercicio(){
                     console.log("ok")
                     fecharModal()
                 }
+                if( response.status === 403) window.alert("Exerciceo ja criado");
                 else console.error('Not ok')
             })
     }
